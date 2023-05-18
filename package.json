@@ -1,0 +1,57 @@
+{
+  "name": "project-42-back",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node ./server.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon ./server.js",
+    "lint": "eslint **/*.js",
+    "lint:fix": "eslint --fix **/*.js"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "bcrypt": "^5.1.0",
+    "cloudinary": "^1.37.0",
+    "cors": "2.8.5",
+    "cross-env": "7.0.3",
+    "dotenv": "^16.0.3",
+    "express": "4.17.1",
+    "formidable": "^2.1.1",
+    "jimp": "^0.22.8",
+    "joi": "^17.9.1",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.3",
+    "morgan": "1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nanoid": "^3.3.6",
+    "passport": "^0.6.0",
+    "passport-google-oauth2": "^0.2.0"
+  },
+  "devDependencies": {
+    "eslint": "7.19.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "16.0.3",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "5.2.0",
+    "nodemon": "2.0.15"
+  },
+  "description": "Виконайте форк цього репозиторію для виконання домашніх завдань (2-6) Форк створить репозиторій на вашому http://github.com",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaulHighrow/project-42-back.git"
+  },
+  "keywords": [
+    "goit",
+    "fullstack",
+    "team",
+    "project"
+  ],
+  "author": "42",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PaulHighrow/project-42-back/issues"
+  },
+  "homepage": "https://github.com/PaulHighrow/project-42-back#readme"
+}
