@@ -3,6 +3,8 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const usersRouter = require('./routes/api/users');
+const noticesRouter = require('./routes/api/notices');
+const petsRouter = require('./routes/api/pets');
 
 const app = express();
 
@@ -13,7 +15,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/notices', noticesRouter);
+app.use('/api/pets', petsRouter);
 
 app.use((__, res) => {
   res.status(404).json({ message: 'Not found' });
