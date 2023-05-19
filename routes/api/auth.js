@@ -1,41 +1,20 @@
-// const express = require("express");
+const express = require('express');
+const validateUserData = require('../../middlewares/userValidator');
+const authenticate = require('../../middlewares/authenticate');
 
-// const listContacts = require("../../controllers/contactsControllers/listContacts");
-// const getById = require("../../controllers/contactsControllers/getById");
-// const addContact = require("../../controllers/contactsControllers/addContact");
-// const removeContact = require("../../controllers/contactsControllers/removeContact");
-// const updateContact = require("../../controllers/contactsControllers/updateContact");
-// const updateStatusContact = require("../../controllers/contactsControllers/updateStatusContact");
+const asyncWrapper = require('../../helpers/asyncWrapper');
 
-// const validateData = require("../../middlewares/addValidator");
-// const validateUpdateData = require("../../middlewares/updateValidator");
-// const validateStatusData = require("../../middlewares/updateStatusValidator");
-// const authenticate = require("../../middlewares/authenticate");
+const signup = require('../../controllers/userControllers/signup');
+const login = require('../../controllers/userControllers/login');
+const logout = require('../../controllers/userControllers/logout');
 
-// const asyncWrapper = require("../../helpers/asyncWrapper");
+const router = express.Router();
 
-// const router = express.Router();
+router.post('/signup', validateUserData, asyncWrapper(signup));
 
-// router.get("/", authenticate, asyncWrapper(listContacts));
+router.post('/login', validateUserData, asyncWrapper(login));
 
-// router.get("/:contactId", authenticate, asyncWrapper(getById));
+router.post('/logout', authenticate, asyncWrapper(logout));
 
-// router.post("/", authenticate, validateData, asyncWrapper(addContact));
 
-// router.delete("/:contactId", authenticate, asyncWrapper(removeContact));
-
-// router.put(
-//   "/:contactId",
-//   authenticate,
-//   validateUpdateData,
-//   asyncWrapper(updateContact)
-// );
-
-// router.patch(
-//   "/:contactId/favorite",
-//   authenticate,
-//   validateStatusData,
-//   asyncWrapper(updateStatusContact)
-// );
-
-// module.exports = router;
+module.exports = router;
