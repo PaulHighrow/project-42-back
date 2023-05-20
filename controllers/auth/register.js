@@ -4,7 +4,7 @@ const { User } = require('../../db/models');
 const { findUserByEmail } = require('../../services/authService');
 const { registerValidation } = require('../../schemas/validationUser');
 
-const signup = asyncHandler(async (req, res) => {
+const register = asyncHandler(async (req, res) => {
   const { error } = registerValidation.validate(req.body);
   if (error) {
     return res.status(400).json({ message: 'Missing fields' });
@@ -32,4 +32,4 @@ const signup = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = signup;
+module.exports = register;

@@ -20,10 +20,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-app.use('/api/auth', authRouter);
-app.use('/api/users', usersRouter);
-// app.use('/api/notices', noticesRouter);
-// app.use('/api/pets', petsRouter);
+app.use('/auth', authRouter);
+app.use('users', usersRouter);
+// app.use('/notices', noticesRouter);
+// app.use('/pets', petsRouter);
 
 app.use((__, res) => {
   res.status(404).json({ message: 'Not found' });

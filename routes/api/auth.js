@@ -3,7 +3,7 @@ const router = express.Router();
 const ctrl = require('../../controllers/auth');
 const authenticate = require('../../middlewares/auth');
 
-router.post('/signup', ctrl.signup);
+router.post('/register', ctrl.register);
 
 router.post('/login', ctrl.login);
 
