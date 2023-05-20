@@ -4,7 +4,6 @@ const { emailPattern, passwordPattern } = require('./patterns');
 
 const schema = {
   register: Joi.object({
-    name: Joi.string().min(3).max(20),
     email: Joi.string().email().pattern(emailPattern).required(),
     password: Joi.string().pattern(passwordPattern).required(),
   }).unknown(false),
@@ -22,7 +21,7 @@ const schema = {
   avatar: Joi.object({
     fieldname: Joi.string().valid('avatar').required(),
     mimetype: Joi.string()
-      .valid('image/jpeg', 'image/png', 'image/jpeg', 'image/gif')
+      .valid('image/jpeg', 'image/png', 'image/gif')
       .required()
       .messages({ 'any.only': 'The file format must be jpg or png' }),
     size: Joi.number()
@@ -35,12 +34,10 @@ const schema = {
 };
 
 const registerValidation = ({ body }, res, next) => {
+  console.log('here');
   const { error } = schema.register.validate(body);
 
-  if (error)
-    return res.status(400).json({ message: getError(error, 'signup') });
-
-  next();
+  if (error) next();
 };
 
 const loginValidation = ({ body }, res, next) => {

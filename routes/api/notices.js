@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const asyncWrapper = require('../../helpers/asyncWrapper');
-const authenticate = require('../../middlewares/authenticate');
+const authenticate = require('../../middlewares/auth');
 const ctrNotices = require('../../controllers/noticesControllers');
 
 router.get('/', asyncWrapper(ctrNotices.getAllNotices));
