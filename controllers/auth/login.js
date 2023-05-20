@@ -5,11 +5,12 @@ const { joiLoginSchema } = require('../../schemas');
 const { User } = require('../../db/models');
 const { generateToken } = require('../../helpers');
 const { findUserByEmail } = require('../../services/authService');
+const getError = require('../../helpers/getError');
 
 const login = asyncHandler(async (req, res) => {
   const { error } = joiLoginSchema.validate(req.body);
   if (error) {
-    return res.status(400).json({ message: 'Missing fields' });
+    return res.status(400).json({ message: getError(error, 'login') });
   }
   const { email, password } = req.body;
   const user = await findUserByEmail({ email });
