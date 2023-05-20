@@ -4,8 +4,8 @@ const cors = require('cors');
 
 const authRouter = require('./routes/api/auth');
 const usersRouter = require('./routes/api/users');
-// const noticesRouter = require('./routes/api/notices');
-// const petsRouter = require('./routes/api/pets');
+const noticesRouter = require('./routes/api/notices');
+const petsRouter = require('./routes/api/pets');
 
 const app = express();
 const swaggerUi = require('swagger-ui-express');
@@ -21,9 +21,9 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use('/auth', authRouter);
-app.use('users', usersRouter);
-// app.use('/notices', noticesRouter);
-// app.use('/pets', petsRouter);
+app.use('/users', usersRouter);
+app.use('/notices', noticesRouter);
+app.use('/pets', petsRouter);
 
 app.use((__, res) => {
   res.status(404).json({ message: 'Not found' });
