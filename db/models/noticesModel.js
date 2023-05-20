@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const mongooseError = require('../../middlewares/mongooseError');
 
-const validateNumber = /\(\d{3}\) \d{3}-\d{4}$/;
+// const validateNumber = /\(\d{3}\) \d{3}-\d{4}$/;
 const validateEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 const noticesSchema = new Schema(
@@ -44,7 +44,7 @@ const noticesSchema = new Schema(
     },
     phone: {
       type: String,
-      match: validateNumber,
+      // match: validateNumber,
       required: true,
     },
     comments: {
@@ -56,8 +56,8 @@ const noticesSchema = new Schema(
       required: true,
     },
     favorite: {
-      type: Boolean,
-      default: false,
+      type: [String],
+      default: [],
     },
     owner: {
       type: Schema.Types.ObjectId,

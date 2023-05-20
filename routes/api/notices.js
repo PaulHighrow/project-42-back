@@ -14,9 +14,9 @@ router.post('/', authenticate, asyncWrapper(ctrNotices.addNotice));
 router.put('/:noticeId', authenticate, asyncWrapper(ctrNotices.updateNotice));
 
 router.patch(
-  '/:noticeId/favorite',
+  '/favorite/:noticeId',
   authenticate,
-  asyncWrapper(ctrNotices.updateStatusNotice)
+  asyncWrapper(ctrNotices.updateFavotiteNotice)
 );
 
 router.delete(
