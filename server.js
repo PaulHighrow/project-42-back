@@ -1,15 +1,15 @@
-const app = require("./app");
-const connectDB = require("./db/connection");
-require("dotenv").config();
+const app = require('./app');
+const connectDB = require('./db/connection');
+require('dotenv').config();
 
 const startServer = async () => {
   try {
     await connectDB();
-    app.listen(process.env.PORT, (error) => {
+    app.listen(process.env.PORT, error => {
       if (error) {
-        console.log("Server launch error", error);
+        console.log('Server launch error', error);
       }
-      console.log("Database connection successful");
+      console.log(`Database connection successful on ${process.env.PORT}`);
     });
   } catch (err) {
     console.log(`Failed to launch application with an error: "${err.message}"`);
