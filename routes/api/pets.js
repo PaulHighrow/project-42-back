@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-const { authenticate } = require('../../middlewares/authenticate');
-const { asyncWrapper } = require('../../helpers/asyncWrapper');
-const { pets: ctrl } = require('../../controllers');
+const authenticate = require('../../middlewares/authenticate');
+const asyncWrapper = require('../../helpers/asyncWrapper');
+const { addPet } = require('../../controllers/petsControllers/index');
 
 router.get('/');
 
 router.post(
-    '/addpet',
-    authenticate,
-    // // upload.single('photo'),
-    // // Joi validation?
-    asyncWrapper(ctrl.addPet)
-    );
+  '/addpet',
+  authenticate,
+  // // upload.single('photo'),
+  // // Joi validation?
+  asyncWrapper(addPet)
+);
 
 router.put('/:petId');
 

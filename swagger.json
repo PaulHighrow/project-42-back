@@ -59,13 +59,8 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": ["name", "email", "password"],
+        "required": ["email", "password"],
         "properties": {
-          "name": {
-            "type": "string",
-            "description": "Username",
-            "example": "Average Pet Appreciator"
-          },
           "email": {
             "type": "string",
             "description": "User's email",

@@ -1,4 +1,4 @@
-const asyncWrapper = (ctrl) => {
+const asyncWrapper = ctrl => {
   return async (req, res, next) => {
     try {
       await ctrl(req, res, next);
