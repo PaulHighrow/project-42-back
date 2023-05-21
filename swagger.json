@@ -22,7 +22,7 @@
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
-          "description": "Registration's object",
+          "description": "Registration object",
           "required": true,
           "content": {
             "application/json": {
@@ -34,7 +34,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful operation",
+            "description": "Registration successful!",
             "content": {
               "application/json": {
                 "schema": {
@@ -53,6 +53,61 @@
           }
         }
       }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "204": {
+            "description": "Logged out"
+          },
+          "401": {
+            "description": "Not authorized"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -64,12 +119,13 @@
           "email": {
             "type": "string",
             "description": "User's email",
+            "email": "user@example.com",
             "format": "email"
           },
           "password": {
             "type": "string",
             "description": "User's password",
-            "example": "qwerty123"
+            "example": "Qwerty123"
           }
         }
       },
@@ -86,7 +142,52 @@
             "userId": {
               "type": "number",
               "description": "User's id",
+              "example": "1234123412341234"
+            }
+          }
+        },
+        "example": [
+          { "email": "1@gmail.com", "userId": "1" },
+          { "email": "2@gmail.com", "userId": "2" }
+        ]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "email": "user@example.com",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "Qwerty123"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "email": "user@example.com",
+              "format": "email"
+            },
+            "userId": {
+              "type": "number",
+              "description": "User's id",
               "example": "32143232436545474"
+            },
+            "token": {
+              "type": "string",
+              "description": "Authorization bearer token",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTEyMzZkZDhhNTkxMjdjYWExZjUwNSIsImlhdCI6MTY4MzAzOTEyMSwiZXhwIjoxNjgzMDQ2MzIxfQ.bSd8DjI_ME-R4acwFhShioXX3FAOSq9GbR3lSfbzw3c"
             }
           }
         },
