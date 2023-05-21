@@ -1409,9 +1409,9 @@
     "node-int64" "^0.4.0"
 
 "bson@^5.0.1":
-  "integrity" "sha512-HevkSpDbpUfsrHWmWiAsNavANKYIErV2ePXllp1bwq5CDreAaFVj6RVlZpJnxK4WWDCJ/5jMUpaY6G526q3Hjg=="
-  "resolved" "https://registry.npmjs.org/bson/-/bson-5.2.0.tgz"
-  "version" "5.2.0"
+  "integrity" "sha512-ukmCZMneMlaC5ebPHXIkP8YJzNl5DC41N5MAIvKDqLggdao342t4McltoJBQfQya/nHBWAcSsYRqlXPoQkTJag=="
+  "resolved" "https://registry.npmjs.org/bson/-/bson-5.3.0.tgz"
+  "version" "5.3.0"
 
 "buffer-equal-constant-time@1.0.1":
   "integrity" "sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA=="
