@@ -22,10 +22,6 @@ router.put('/:petId');
 
 router.patch('/:petId');
 
-router.delete(
-    '/:petId',
-    authenticate,
-    asyncWrapper(ctrl.removePet)
-    );
+router.delete('/:petId', authenticate, asyncWrapper(ctrl.removePet));
 
 module.exports = router;

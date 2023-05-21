@@ -36,6 +36,4 @@ const changeAvatar = async (cloudinaryURL, _id) => {
   return { avatarURL };
 };
 
-
-
-module.exports = { updateUser, changeAvatar};
+module.exports = { updateUser, changeAvatar };

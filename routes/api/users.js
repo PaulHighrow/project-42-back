@@ -11,7 +11,12 @@ const { updateValidation } = require('../../schemas/validationUser');
 const router = express.Router();
 
 router.get('/current', authenticate, asyncWrapper(ctrl.current));
-router.patch('/update', authenticate, updateValidation, asyncWrapper(ctrl.update));
+router.patch(
+  '/update',
+  authenticate,
+  updateValidation,
+  asyncWrapper(ctrl.update)
+);
 router.patch(
   '/avatars',
   authenticate,
