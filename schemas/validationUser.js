@@ -1,16 +1,9 @@
 const Joi = require('joi');
 const getError = require('../helpers/getError');
-const { emailPattern, passwordPattern } = require('./patterns');
+const { emailPattern } = require('./patterns');
 
 const schema = {
-  register: Joi.object({
-    email: Joi.string().email().pattern(emailPattern).required(),
-    password: Joi.string().pattern(passwordPattern).required(),
-  }).unknown(false),
-  login: Joi.object({
-    email: Joi.string().email().pattern(emailPattern).required(),
-    password: Joi.string().pattern(passwordPattern).required(),
-  }).unknown(false),
+
   update: Joi.object({
     name: Joi.string().min(3).max(20),
     email: Joi.string().email().pattern(emailPattern).required(),
@@ -33,20 +26,6 @@ const schema = {
     .unknown(true),
 };
 
-const registerValidation = ({ body }, res, next) => {
-  console.log('here');
-  const { error } = schema.register.validate(body);
-
-  if (error) next();
-};
-
-const loginValidation = ({ body }, res, next) => {
-  const { error } = schema.login.validate(body);
-
-  if (error) return res.status(400).json({ message: getError(error, 'login') });
-
-  next();
-};
 
 const updateValidation = ({ body }, res, next) => {
   const { error } = schema.update.validate(body);
@@ -58,7 +37,5 @@ const updateValidation = ({ body }, res, next) => {
 };
 
 module.exports = {
-  registerValidation,
-  loginValidation,
   updateValidation,
 };

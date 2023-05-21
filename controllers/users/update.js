@@ -1,7 +1,6 @@
 const expressAsyncHandler = require("express-async-handler");
 const { User } = require("../../db/models");
 
-
 const update = expressAsyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { name, email, birthday, phone, city } = req.body;
