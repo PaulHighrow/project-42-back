@@ -1,9 +1,10 @@
 const Notice = require('../../db/models/noticesModel');
 
-const getAllNotices = async (req, res) => {
+const getUserNotices = async (req, res) => {
   const { page = 1, limit = 20, title, categories } = req.query;
   const skip = (page - 1) * limit;
-  const queryBody = {};
+  const { _id: owner } = req.user;
+  const queryBody = { owner };
 
   if (title) {
     queryBody.titleArray = title.split(' ');
@@ -29,4 +30,4 @@ const getAllNotices = async (req, res) => {
   });
 };
 
-module.exports = getAllNotices;
+module.exports = getUserNotices;

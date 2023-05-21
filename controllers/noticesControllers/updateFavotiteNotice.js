@@ -7,8 +7,6 @@ const updateFavotiteNotice = async (req, res, next) => {
   const { _id: owner } = req.user;
   const { favorite } = req.query;
 
-  console.log(favorite);
-
   const noticeId = await Notice.findById(_id);
   let favorites = noticeId.favorite;
 
