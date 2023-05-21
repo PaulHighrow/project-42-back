@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const asyncWrapper = require('../../helpers/asyncWrapper');
-// const uploadCloud = require('../../middlewares/upload');
+const upload = require('../../middlewares/uploadNotice');
 const authenticate = require('../../middlewares/auth');
 const ctrNotices = require('../../controllers/noticesControllers');
 
@@ -28,11 +28,11 @@ router.delete(
   asyncWrapper(ctrNotices.deleteNotice)
 );
 
-// router.patch(
-//   '/image',
-//   authenticate,
-//   uploadCloud.single('avatar'),
-//   asyncWrapper(ctrNotices.uploadImage)
-// );
+router.patch(
+  '/image',
+  authenticate,
+  upload.single('image'),
+  asyncWrapper(ctrNotices.uploadImage)
+);
 
 module.exports = router;
