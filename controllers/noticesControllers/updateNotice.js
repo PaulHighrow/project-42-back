@@ -16,7 +16,7 @@ const updateNotice = async (req, res, next) => {
   res.json({
     status: 'success',
     code: 200,
-    data: notice,
+    // data: notice,
   });
 };
 
