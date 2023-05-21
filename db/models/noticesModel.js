@@ -55,7 +55,15 @@ const noticesSchema = new Schema(
       type: String,
       required: true,
     },
+    imageURL: {
+      type: String,
+      default: '',
+    },
     favorite: {
+      type: [String],
+      default: [],
+    },
+    titleArray: {
       type: [String],
       default: [],
     },
