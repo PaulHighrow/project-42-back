@@ -11,7 +11,7 @@ const updateNotice = async (req, res, next) => {
   const { path: tmpUpload, originalname } = req.file;
   const { title } = req.body;
 
-  const titleArray = title.split(' ');
+  const titleArray = title.toLowerCase().split(' ');
 
   const fileName = `${owner}_${originalname}`;
   const tmpDir = path.dirname(tmpUpload);

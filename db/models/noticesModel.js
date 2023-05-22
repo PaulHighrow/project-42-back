@@ -2,8 +2,8 @@ const { Schema, model } = require('mongoose');
 
 const mongooseError = require('../../middlewares/mongooseError');
 
-// const validateNumber = /\(\d{3}\) \d{3}-\d{4}$/;
-const validateEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+const { emailPattern } = require('../../schemas/patterns');
+const { phonePattern } = require('../../schemas/patterns');
 
 const noticesSchema = new Schema(
   {
@@ -43,20 +43,16 @@ const noticesSchema = new Schema(
     },
     email: {
       type: String,
-      match: validateEmail,
+      match: emailPattern,
       required: true,
     },
     phone: {
       type: String,
-      // match: validateNumber,
+      match: phonePattern,
       required: true,
     },
     comments: {
       type: String,
-    },
-    age: {
-      type: String,
-      // required: true,
     },
     imageURL: {
       type: String,

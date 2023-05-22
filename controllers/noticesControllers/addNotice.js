@@ -7,7 +7,7 @@ const configCloudinary = require('./configCloudinary');
 const addNotice = async (req, res) => {
   const { _id: owner } = req.user;
   const { path: tmpUpload, originalname } = req.file;
-  const titleArray = req.body.title.split(' ');
+  const titleArray = req.body.title.toLowerCase().split(' ');
   const fileName = `${owner}_${originalname}`;
   const tmpDir = path.dirname(tmpUpload);
   const resultUpload = path.join(tmpDir, fileName);
