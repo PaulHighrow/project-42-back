@@ -14,15 +14,19 @@ const noticesSchema = new Schema(
     },
     title: {
       type: String,
+      minlength: 3,
+      maxlength: 30,
       required: true,
     },
     name: {
       type: String,
-      // required: true,
+      minlength: 3,
+      maxlength: 20,
+      required: true,
     },
     birthday: {
       type: String,
-      // required: true,
+      required: true,
     },
     breed: {
       type: String,
@@ -35,21 +39,20 @@ const noticesSchema = new Schema(
     sex: {
       type: String,
       enum: ['female', 'male'],
-      // required: true,
+      required: true,
     },
     email: {
       type: String,
       match: validateEmail,
-      // required: true,
+      required: true,
     },
     phone: {
       type: String,
       // match: validateNumber,
-      // required: true,
+      required: true,
     },
     comments: {
       type: String,
-      // required: true,
     },
     age: {
       type: String,
