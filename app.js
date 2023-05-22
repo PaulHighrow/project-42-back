@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use('/auth', authRouter);
-app.use('/users', usersRouter);
+app.use('/user', usersRouter);
 app.use('/notices', noticesRouter);
 app.use('/pets', petsRouter);
 
