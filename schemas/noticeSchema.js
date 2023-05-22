@@ -37,10 +37,6 @@ const putSchema = Joi.object({
   comments: Joi.string(),
 });
 
-const patchFavoriteSchema = Joi.object({
-  favorite: Joi.array().items(Joi.string()),
-});
-
-const schema = { postSchema, putSchema, patchFavoriteSchema };
+const schema = { postSchema, putSchema };
 
 module.exports = schema;

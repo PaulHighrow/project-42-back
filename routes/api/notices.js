@@ -18,6 +18,7 @@ router.post(
   '/',
   authenticate,
   upload.single('image'),
+  validation(schema.postSchema),
   asyncWrapper(ctrNotices.addNotice)
 );
 
