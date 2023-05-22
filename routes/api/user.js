@@ -4,10 +4,10 @@ const authenticate = require('../../middlewares/auth');
 
 const asyncWrapper = require('../../helpers/asyncWrapper');
 
-const ctrl = require('../../controllers/users');
+const ctrl = require('../../controllers/user');
 const uploadCloud = require('../../middlewares/upload');
 const { updateValidation } = require('../../schemas/validationUser');
-const { avatar } = require('../../controllers/users/avatar');
+const { avatar } = require('../../controllers/user/avatar');
 
 const router = express.Router();
 
