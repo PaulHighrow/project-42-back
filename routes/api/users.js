@@ -7,6 +7,7 @@ const asyncWrapper = require('../../helpers/asyncWrapper');
 const ctrl = require('../../controllers/users');
 const uploadCloud = require('../../middlewares/upload');
 const { updateValidation } = require('../../schemas/validationUser');
+const { avatar } = require('../../controllers/users/avatar');
 
 const router = express.Router();
 
@@ -21,7 +22,7 @@ router.patch(
   '/avatars',
   authenticate,
   uploadCloud.single('avatarURL'),
-  asyncWrapper(ctrl.avatar)
+  asyncWrapper(avatar)
 );
 
 module.exports = router;
