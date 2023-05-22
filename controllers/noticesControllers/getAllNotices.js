@@ -3,10 +3,11 @@ const Notice = require('../../db/models/noticesModel');
 const getAllNotices = async (req, res) => {
   const { page = 1, limit = 20, title, categories } = req.query;
   const skip = (page - 1) * limit;
+  const { titleArray } = req.body;
   const queryBody = {};
 
   if (title) {
-    queryBody.titleArray = title.split(' ');
+    queryBody.titleArray = titleArray;
 
     if (queryBody.titleArray.length === 1) {
       queryBody.titleArray = title;

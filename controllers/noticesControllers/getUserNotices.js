@@ -4,10 +4,11 @@ const getUserNotices = async (req, res) => {
   const { page = 1, limit = 20, title, categories } = req.query;
   const skip = (page - 1) * limit;
   const { _id: owner } = req.user;
+  const { titleArray } = req.body;
   const queryBody = { owner };
 
   if (title) {
-    queryBody.titleArray = title.split(' ');
+    queryBody.titleArray = titleArray;
 
     if (queryBody.titleArray.length === 1) {
       queryBody.titleArray = title;

@@ -9,6 +9,9 @@ const updateNotice = async (req, res, next) => {
   const { noticeId: _id } = req.params;
   const { _id: owner } = req.user;
   const { path: tmpUpload, originalname } = req.file;
+  const { title } = req.body;
+
+  const titleArray = title.split(' ');
 
   const fileName = `${owner}_${originalname}`;
   const tmpDir = path.dirname(tmpUpload);
@@ -19,7 +22,7 @@ const updateNotice = async (req, res, next) => {
   await fs.unlink(resultUpload);
   const notice = await Notice.findByIdAndUpdate(
     { owner, _id },
-    { ...req.body, imageURL: result.url },
+    { ...req.body, imageURL: result.url, titleArray },
     {
       new: true,
     }
