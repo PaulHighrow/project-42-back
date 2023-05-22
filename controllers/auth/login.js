@@ -34,11 +34,11 @@ const login = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      phone: user.phone,
-      city: user.city,
-      birthday: user.birthday,
-      avatarURL: user.avatarURL,
-      favorite: user.favorite,
+      // phone: user.phone,
+      // city: user.city,
+      // birthday: user.birthday,
+      // avatarURL: user.avatarURL,
+      // favorite: user.favorite,
     },
   });
 });
