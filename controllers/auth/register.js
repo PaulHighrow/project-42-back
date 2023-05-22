@@ -17,9 +17,7 @@ const register = asyncHandler(async (req, res) => {
   const user = await findUserByEmail({ email });
 
   if (user) {
-    return res
-      .status(409)
-      .json({ message: `User with ${email} already exists ` });
+    return res.status(409).json({ message: `Email or password is wrong` });
   }
 
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
