@@ -16,7 +16,6 @@ const postSchema = Joi.object({
   email: Joi.string().pattern(emailPattern).required(),
   phone: Joi.string().pattern(phonePattern).required(),
   comments: Joi.string(),
-  favorite: Joi.array().default([]),
 });
 
 const putSchema = Joi.object({
@@ -36,7 +35,6 @@ const putSchema = Joi.object({
   email: Joi.string().pattern(emailPattern),
   phone: Joi.string().pattern(phonePattern),
   comments: Joi.string(),
-  favorite: Joi.array().default([]),
 });
 
 const patchFavoriteSchema = Joi.object({
