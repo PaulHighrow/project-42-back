@@ -5,7 +5,6 @@ const deleteNotice = require('./deleteNotice');
 const updateNotice = require('./updateNotice');
 const updateFavotiteNotice = require('./updateFavotiteNotice');
 const getUserNotices = require('./getUserNotices');
-const uploadImage = require('./uploadImage');
 
 module.exports = {
   getAllNotices,
@@ -15,5 +14,4 @@ module.exports = {
   deleteNotice,
   updateNotice,
   updateFavotiteNotice,
-  uploadImage,
 };

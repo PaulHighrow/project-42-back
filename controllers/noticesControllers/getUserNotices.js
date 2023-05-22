@@ -7,10 +7,10 @@ const getUserNotices = async (req, res) => {
   const queryBody = { owner };
 
   if (title) {
-    queryBody.titleArray = title.split(' ');
+    queryBody.titleArray = title.toLowerCase().split(' ');
 
     if (queryBody.titleArray.length === 1) {
-      queryBody.titleArray = title;
+      queryBody.titleArray = title.toLowerCase();
     }
   }
 
