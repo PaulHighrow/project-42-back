@@ -3,6 +3,7 @@ const getError = require('../helpers/getError');
 const { emailPattern } = require('./patterns');
 
 const schema = {
+
   update: Joi.object({
     name: Joi.string().min(3).max(20),
     email: Joi.string().email().pattern(emailPattern).required(),
@@ -13,7 +14,7 @@ const schema = {
   avatar: Joi.object({
     fieldname: Joi.string().valid('avatar').required(),
     mimetype: Joi.string()
-      .valid('image/jpeg', 'image/png', 'image/jpeg', 'image/gif')
+      .valid('image/jpeg', 'image/png', 'image/gif')
       .required()
       .messages({ 'any.only': 'The file format must be jpg or png' }),
     size: Joi.number()
@@ -24,6 +25,7 @@ const schema = {
     .required()
     .unknown(true),
 };
+
 
 const updateValidation = ({ body }, res, next) => {
   const { error } = schema.update.validate(body);
