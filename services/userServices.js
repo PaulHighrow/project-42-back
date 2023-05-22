@@ -22,20 +22,8 @@ const updateUser = async (
   return user;
 };
 
-const changeAvatar = async (cloudinaryURL, _id) => {
-  const avatarURL = cloudinaryURL;
-
-  await User.findByIdAndUpdate(_id, { avatarURL })
-    .then(() => {
-      console.log('after update');
-    })
-    .catch(error => {
-      console.log(error);
-    });
-
-  return { avatarURL };
+const changeAvatar = async (_id, avatarURL) => {
+  return await User.findByIdAndUpdate(_id, avatarURL, { new: true });
 };
 
-
-
-module.exports = { updateUser, changeAvatar};
+module.exports = { updateUser, changeAvatar };
