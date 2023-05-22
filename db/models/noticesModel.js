@@ -18,42 +18,42 @@ const noticesSchema = new Schema(
     },
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
     birthday: {
       type: String,
-      required: true,
+      // required: true,
     },
     breed: {
       type: String,
-      required: true,
+      // required: true,
     },
     place: {
       type: String,
-      required: true,
+      // required: true,
     },
     sex: {
       type: String,
       enum: ['female', 'male'],
-      required: true,
+      // required: true,
     },
     email: {
       type: String,
       match: validateEmail,
-      required: true,
+      // required: true,
     },
     phone: {
       type: String,
       // match: validateNumber,
-      required: true,
+      // required: true,
     },
     comments: {
       type: String,
-      required: true,
+      // required: true,
     },
     age: {
       type: String,
-      required: true,
+      // required: true,
     },
     imageURL: {
       type: String,
