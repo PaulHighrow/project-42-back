@@ -1,7 +1,7 @@
-const expressAsyncHandler = require("express-async-handler");
+const asyncHandler = require("express-async-handler");
 const { User } = require("../../db/models");
 
-const update = expressAsyncHandler(async (req, res) => {
+const update = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { name, email, birthday, phone, city } = req.body;
   const avatarURL = req.file ? req.file.path : req.user.avatarURL;
