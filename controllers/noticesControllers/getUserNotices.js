@@ -24,11 +24,8 @@ const getUserNotices = async (req, res) => {
     limit,
   });
 
-  notices.forEach(notice => {
-    notice.favoriteNotice = notice.favorite.includes(owner);
-  });
-
   const filterKeysNotices = notices.map(notice => {
+    notice.favoriteNotice = notice.favorite.includes(owner);
     return {
       id: notice._id,
       categories: notice.categories,
