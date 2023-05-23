@@ -1,11 +1,10 @@
 const Notice = require('../../db/models/noticesModel');
 
-const getUserNotices = async (req, res) => {
+const getFavoriteNotices = async (req, res) => {
   const { page = 1, limit = 20, title, categories } = req.query;
   const skip = (page - 1) * limit;
-  const { _id: owner } = req.user;
-
-  const queryBody = { owner };
+  const favorite = String(req.user._id);
+  const queryBody = { favorite };
 
   if (title) {
     queryBody.titleArray = title.toLowerCase().split(' ');
@@ -31,4 +30,4 @@ const getUserNotices = async (req, res) => {
   });
 };
 
-module.exports = getUserNotices;
+module.exports = getFavoriteNotices;
