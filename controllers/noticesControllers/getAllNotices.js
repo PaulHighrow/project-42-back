@@ -14,7 +14,7 @@ const getAllNotices = async (req, res) => {
   }
 
   if (categories) {
-    queryBody.categories = categories;
+    queryBody.categories = categories.toLowerCase();
   }
 
   const notices = await Notice.find(queryBody, '', {
