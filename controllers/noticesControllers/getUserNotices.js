@@ -5,7 +5,7 @@ const getUserNotices = async (req, res) => {
   const skip = (page - 1) * limit;
   const { _id: owner } = req.user;
 
-  const queryBody = { owner };
+  const queryBody = {};
 
   if (title) {
     queryBody.titleArray = title.toLowerCase().split(' ');
@@ -24,10 +24,25 @@ const getUserNotices = async (req, res) => {
     limit,
   });
 
+  const filterKeysNotices = notices.map(notice => {
+    notice.favoriteNotice = notice.favorite.includes(owner);
+    return {
+      id: notice._id,
+      categories: notice.categories,
+      title: notice.title,
+      name: notice.name,
+      birthday: notice.birthday,
+      place: notice.place,
+      sex: notice.sex,
+      imageURL: notice.imageURL,
+      favorite: notice.favoriteNotice,
+    };
+  });
+
   res.json({
     status: 'success',
     code: 200,
-    data: notices,
+    data: { notices: filterKeysNotices },
   });
 };
 

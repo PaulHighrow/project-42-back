@@ -14,7 +14,20 @@ const getNoticeById = async (req, res, next) => {
   res.json({
     status: 'success',
     code: 200,
-    data: notice,
+    data: {
+      notice: {
+        id: _id,
+        categories: notice.categories,
+        title: notice.title,
+        name: notice.name,
+        birthday: notice.birthday,
+        breed: notice.birthday,
+        place: notice.place,
+        sex: notice.sex,
+        imageURL: notice.imageURL,
+        comments: notice.comments,
+      },
+    },
   });
 };
 

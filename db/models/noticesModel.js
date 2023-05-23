@@ -2,9 +2,6 @@ const { Schema, model } = require('mongoose');
 
 const mongooseError = require('../../middlewares/mongooseError');
 
-const { emailPattern } = require('../../schemas/patterns');
-const { phonePattern } = require('../../schemas/patterns');
-
 const noticesSchema = new Schema(
   {
     categories: {
@@ -30,29 +27,19 @@ const noticesSchema = new Schema(
     },
     breed: {
       type: String,
-      // required: true,
     },
     place: {
       type: String,
-      // required: true,
+      required: true,
     },
     sex: {
       type: String,
       enum: ['female', 'male'],
       required: true,
     },
-    email: {
-      type: String,
-      match: emailPattern,
-      required: true,
-    },
-    phone: {
-      type: String,
-      match: phonePattern,
-      required: true,
-    },
     comments: {
       type: String,
+      default: '',
     },
     imageURL: {
       type: String,
@@ -61,6 +48,9 @@ const noticesSchema = new Schema(
     favorite: {
       type: [String],
       default: [],
+    },
+    favoriteNotice: {
+      type: Boolean,
     },
     titleArray: {
       type: [String],
