@@ -1,7 +1,5 @@
 const Joi = require('joi');
-
-const { emailPattern } = require('./patterns');
-const { phonePattern } = require('./patterns');
+const JoiDate = require('joi').extend(require('@joi/date'));
 
 const postSchema = Joi.object({
   categories: Joi.string()
@@ -9,12 +7,10 @@ const postSchema = Joi.object({
     .required(),
   title: Joi.string().min(3).max(30).required(),
   name: Joi.string().min(3).max(15).required(),
-  birthday: Joi.date().less('now').required(),
+  birthday: JoiDate.date().format('DD.MM.YYYY'),
   breed: Joi.string(),
   place: Joi.string().required(),
   sex: Joi.string().valid('female', 'male').required(),
-  email: Joi.string().pattern(emailPattern).required(),
-  phone: Joi.string().pattern(phonePattern).required(),
   comments: Joi.string(),
 });
 
@@ -27,13 +23,11 @@ const putSchema = Joi.object({
     'my ads'
   ),
   title: Joi.string().min(3).max(30),
-  name: Joi.string().required().min(3).max(15),
-  birthday: Joi.date().less('now'),
+  name: Joi.string().min(3).max(15),
+  birthday: JoiDate.date().format('DD.MM.YYYY'),
   breed: Joi.string(),
   place: Joi.string(),
   sex: Joi.string().valid('female', 'male'),
-  email: Joi.string().pattern(emailPattern),
-  phone: Joi.string().pattern(phonePattern),
   comments: Joi.string(),
 });
 

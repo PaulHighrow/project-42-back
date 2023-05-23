@@ -15,7 +15,14 @@ const deleteNotice = async (req, res, next) => {
     status: 'success',
     code: 200,
     message: `Contact width id=${_id} was deleted`,
-    data: notice,
+    data: {
+      notice: {
+        id: _id,
+        categories: notice.categories,
+        title: notice.title,
+        name: notice.name,
+      },
+    },
   });
 };
 

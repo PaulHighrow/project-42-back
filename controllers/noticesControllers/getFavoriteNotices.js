@@ -23,10 +23,23 @@ const getFavoriteNotices = async (req, res) => {
     limit,
   });
 
+  const filterKeysNotices = notices.map(notice => {
+    return {
+      id: notice._id,
+      categories: notice.categories,
+      title: notice.title,
+      name: notice.name,
+      birthday: notice.birthday,
+      place: notice.place,
+      sex: notice.sex,
+      imageURL: notice.imageURL,
+    };
+  });
+
   res.json({
     status: 'success',
     code: 200,
-    data: notices,
+    data: { notices: filterKeysNotices },
   });
 };
 
