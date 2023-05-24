@@ -4,8 +4,7 @@ const httpError = require('../../helpers/httpError');
 
 const getNoticeById = async (req, res, next) => {
   const { noticeId: _id } = req.params;
-  const { _id: owner } = req.user;
-  const notice = await Notice.findById({ owner, _id });
+  const notice = await Notice.findById(_id);
 
   if (notice.length === 0) {
     return next(httpError(404, `Notice width id=${_id} is not found`));
