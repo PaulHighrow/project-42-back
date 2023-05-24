@@ -5,6 +5,7 @@ const { findUserByEmail } = require('../../services/authService');
 
 const { joiSignupSchema } = require('../../schemas');
 const getError = require('../../helpers/getError');
+const { generateToken } = require('../../helpers/generateToken');
 
 const register = asyncHandler(async (req, res) => {
   const { error } = joiSignupSchema.validate(req.body);
@@ -26,9 +27,13 @@ const register = asyncHandler(async (req, res) => {
     password: hashPassword,
   });
 
+  const { token } = await generateToken(newUser._id);
+  await User.findByIdAndUpdate(newUser._id, { token });
+
   res.status(201).json({
     status: 'success',
     code: 201,
+    token,
     result: {
       email: newUser.email,
     },
