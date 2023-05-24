@@ -18,7 +18,7 @@ router.get(
   asyncWrapper(ctrNotices.getFavoriteNotices)
 );
 
-router.get('/:noticeId', authenticate, asyncWrapper(ctrNotices.getNoticeById));
+router.get('/:noticeId', asyncWrapper(ctrNotices.getNoticeById));
 
 router.post(
   '/',
