@@ -16,7 +16,12 @@ const validateImage = (req, res, next) => {
     ];
 
     if (!type.includes(file.image.mimetype)) {
-      return next(httpError(400, `Not image!`));
+      return next(
+        httpError(
+          400,
+          `It's not format images! Please upload the file in the following format ('.jpg','.jpeg','.png','.bmp','.gif','.tif','.tiff')`
+        )
+      );
     }
   });
   next();
