@@ -8,7 +8,7 @@ require('dotenv').config({
 
 const generateToken = async _id => {
   const payload = { id: _id };
-  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '12h' });
+  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '23h' });
   return { token };
 };
 
