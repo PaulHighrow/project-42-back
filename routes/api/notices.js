@@ -5,6 +5,7 @@ const asyncWrapper = require('../../helpers/asyncWrapper');
 const upload = require('../../middlewares/uploadNotice');
 const validation = require('../../middlewares/validation');
 const authenticate = require('../../middlewares/auth');
+const validateImage = require('../../middlewares/validateImage');
 const ctrNotices = require('../../controllers/noticesControllers');
 const schema = require('../../schemas/noticeSchema');
 
@@ -23,6 +24,7 @@ router.get('/:noticeId', asyncWrapper(ctrNotices.getNoticeById));
 router.post(
   '/',
   authenticate,
+  validateImage,
   upload.single('image'),
   validation(schema.postSchema),
   asyncWrapper(ctrNotices.addNotice)
