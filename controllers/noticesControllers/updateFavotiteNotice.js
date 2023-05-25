@@ -10,18 +10,27 @@ const updateFavotiteNotice = async (req, res, next) => {
   const noticeId = await Notice.findById(_id);
   let favorites = noticeId.favorite;
 
-  if (
-    !favorites.find(favorite => favorite === String(owner)) &&
-    favorite === 'true'
-  ) {
-    favorites.push(String(owner));
-  }
+  if (favorite === 'false' || favorite === 'true') {
+    if (
+      !favorites.find(favorite => favorite === String(owner)) &&
+      favorite === 'true'
+    ) {
+      favorites.push(String(owner));
+    }
 
-  if (
-    favorites.find(favorite => favorite === String(owner)) &&
-    favorite === 'false'
-  ) {
-    favorites = favorites.filter(favorite => favorite !== String(owner));
+    if (
+      favorites.find(favorite => favorite === String(owner)) &&
+      favorite === 'false'
+    ) {
+      favorites = favorites.filter(favorite => favorite !== String(owner));
+    }
+  } else {
+    return next(
+      httpError(
+        400,
+        `Parameter "favorite" is required and can have a value "true" or "false`
+      )
+    );
   }
 
   const notice = await Notice.findByIdAndUpdate(
