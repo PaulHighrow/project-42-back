@@ -40,9 +40,10 @@ const noticesSchema = new Schema(
     },
     comments: {
       type: String,
-      minlength: 8,
-      maxlength: 120,
       default: '',
+    },
+    price: {
+      type: Number,
     },
     imageURL: {
       type: String,

@@ -35,6 +35,7 @@ const getUserNotices = async (req, res) => {
       place: notice.place,
       sex: notice.sex,
       imageURL: notice.imageURL,
+      price: notice.price,
       favorite: notice.favoriteNotice,
     };
   });

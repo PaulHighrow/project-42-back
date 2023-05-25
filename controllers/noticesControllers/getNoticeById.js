@@ -25,6 +25,7 @@ const getNoticeById = async (req, res, next) => {
         sex: notice.sex,
         imageURL: notice.imageURL,
         comments: notice.comments,
+        price: notice.price,
       },
     },
   });

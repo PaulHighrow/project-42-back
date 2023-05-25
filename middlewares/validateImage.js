@@ -4,7 +4,6 @@ const httpError = require('../helpers/httpError');
 const validateImage = (req, res, next) => {
   const form = formidable({ multiples: true });
   form.parse(req, (__, field, file) => {
-    console.log(file.image.mimetype);
     const type = [
       'image/jpg',
       'image/jpeg',

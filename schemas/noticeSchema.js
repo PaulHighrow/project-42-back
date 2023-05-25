@@ -11,7 +11,21 @@ const postSchema = Joi.object({
   breed: Joi.string().required(),
   place: Joi.string().required(),
   sex: Joi.string().valid('female', 'male').required(),
-  comments: Joi.string().min(8).max(120),
+  comments: Joi.string(),
+});
+
+const postSchemaSell = Joi.object({
+  categories: Joi.string()
+    .valid('sell', 'lost/found', 'in good hands', 'favorite ads', 'my ads')
+    .required(),
+  title: Joi.string().min(3).max(30).required(),
+  name: Joi.string().min(3).max(15).required(),
+  birthday: JoiDate.date().format('DD.MM.YYYY').required(),
+  breed: Joi.string().required(),
+  place: Joi.string().required(),
+  sex: Joi.string().valid('female', 'male').required(),
+  comments: Joi.string(),
+  price: Joi.number().min(0).required(),
 });
 
 const putSchema = Joi.object({
@@ -31,6 +45,6 @@ const putSchema = Joi.object({
   comments: Joi.string(),
 });
 
-const schema = { postSchema, putSchema };
+const schema = { postSchema, postSchemaSell, putSchema };
 
 module.exports = schema;
