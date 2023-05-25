@@ -7,11 +7,11 @@ const postSchema = Joi.object({
     .required(),
   title: Joi.string().min(3).max(30).required(),
   name: Joi.string().min(3).max(15).required(),
-  birthday: JoiDate.date().format('DD.MM.YYYY'),
-  breed: Joi.string(),
+  birthday: JoiDate.date().format('DD.MM.YYYY').required(),
+  breed: Joi.string().required(),
   place: Joi.string().required(),
   sex: Joi.string().valid('female', 'male').required(),
-  comments: Joi.string(),
+  comments: Joi.string().min(8).max(120),
 });
 
 const putSchema = Joi.object({

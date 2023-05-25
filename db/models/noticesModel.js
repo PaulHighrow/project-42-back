@@ -27,6 +27,7 @@ const noticesSchema = new Schema(
     },
     breed: {
       type: String,
+      required: true,
     },
     place: {
       type: String,
@@ -39,6 +40,8 @@ const noticesSchema = new Schema(
     },
     comments: {
       type: String,
+      minlength: 8,
+      maxlength: 120,
       default: '',
     },
     imageURL: {
