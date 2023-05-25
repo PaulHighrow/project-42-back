@@ -44,12 +44,7 @@ const updateFavotiteNotice = async (req, res, next) => {
         categories: notice.categories,
         title: notice.title,
         name: notice.name,
-        birthday: notice.birthday,
-        breed: notice.birthday,
-        place: notice.place,
-        sex: notice.sex,
-        imageURL: notice.imageURL,
-        comments: notice.comments,
+        favorite: favorite,
       },
     },
   });

@@ -23,6 +23,15 @@ const validateImage = (req, res, next) => {
         )
       );
     }
+
+    if (file.image.size > 5000000) {
+      return next(
+        httpError(
+          400,
+          `Image size too large! Image size must be less than 5MB.')`
+        )
+      );
+    }
   });
   next();
 };
