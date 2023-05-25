@@ -14,7 +14,7 @@ router.get('/', asyncWrapper(ctrNotices.getAllNotices));
 router.get('/user', authenticate, asyncWrapper(ctrNotices.getUserNotices));
 
 router.get(
-  '/favorite',
+  '/user/favorite',
   authenticate,
   asyncWrapper(ctrNotices.getFavoriteNotices)
 );
@@ -22,7 +22,7 @@ router.get(
 router.get('/:noticeId', asyncWrapper(ctrNotices.getNoticeById));
 
 router.post(
-  '/',
+  '/user',
   authenticate,
   validateImage,
   upload.single('image'),
@@ -31,7 +31,7 @@ router.post(
 );
 
 router.put(
-  '/:noticeId',
+  '/user/:noticeId',
   authenticate,
   upload.single('image'),
   validation(schema.putSchema),
@@ -39,13 +39,13 @@ router.put(
 );
 
 router.patch(
-  '/favorite/:noticeId',
+  '/user/favorite/:noticeId',
   authenticate,
   asyncWrapper(ctrNotices.updateFavotiteNotice)
 );
 
 router.delete(
-  '/:noticeId',
+  '/user/:noticeId',
   authenticate,
   asyncWrapper(ctrNotices.deleteNotice)
 );

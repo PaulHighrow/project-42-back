@@ -12,11 +12,9 @@ const addNotice = async (req, res) => {
   const tmpDir = path.dirname(tmpUpload);
   const resultUpload = path.join(tmpDir, fileName);
 
-  console.log(tmpDir);
-
   await fs.rename(tmpUpload, resultUpload);
   const result = await configCloudinary(fileName, resultUpload);
-  await fs.rmdir(tmpDir, { recursive: true });
+  await fs.rm(tmpDir, { recursive: true });
 
   const notice = await Notice.create({
     ...req.body,
