@@ -9,6 +9,8 @@ const getUserNotices = async (req, res) => {
     minPrice,
     maxPrice,
     sex,
+    minMonths,
+    maxMonths,
   } = req.query;
   const skip = (page - 1) * limit;
   const { _id: owner } = req.user;
@@ -37,6 +39,20 @@ const getUserNotices = async (req, res) => {
 
   if (maxPrice) {
     queryBody.price = { ...queryBody.price, $lte: maxPrice };
+  }
+
+  if (minMonths) {
+    const nowDate = new Date().getTime();
+    const ageDate = Number(minMonths) * 2630016000;
+    const birthDate = nowDate - ageDate;
+    queryBody.birthDate = { $lte: birthDate };
+  }
+
+  if (maxMonths) {
+    const nowDate = new Date().getTime();
+    const ageDate = Number(maxMonths) * 2630016000;
+    const birthDate = nowDate - ageDate;
+    queryBody.birthDate = { ...queryBody.birthDate, $gte: birthDate };
   }
 
   const notices = await Notice.find(queryBody, '', {
