@@ -24,7 +24,7 @@ const updateNotice = async (req, res, next) => {
   await fs.unlink(resultUpload);
   const notice = await Notice.findByIdAndUpdate(
     { owner, _id },
-    { ...req.body, imageURL: result.url },
+    { ...req.body, imageURL: result.url, titleArray },
     {
       new: true,
     }
@@ -37,7 +37,20 @@ const updateNotice = async (req, res, next) => {
   res.json({
     status: 'success',
     code: 200,
-    data: notice,
+    data: {
+      notice: {
+        categories: notice.categories,
+        title: notice.title,
+        name: notice.name,
+        birthday: notice.birthday,
+        breed: notice.birthday,
+        place: notice.place,
+        sex: notice.sex,
+        imageURL: notice.imageURL,
+        comments: notice.comments,
+        price: notice.price,
+      },
+    },
   });
 };
 

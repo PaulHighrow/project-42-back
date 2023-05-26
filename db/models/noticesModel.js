@@ -17,8 +17,8 @@ const noticesSchema = new Schema(
     },
     name: {
       type: String,
-      minlength: 3,
-      maxlength: 20,
+      minlength: 2,
+      maxlength: 16,
       required: true,
     },
     birthday: {
@@ -27,6 +27,7 @@ const noticesSchema = new Schema(
     },
     breed: {
       type: String,
+      required: true,
     },
     place: {
       type: String,
@@ -40,6 +41,9 @@ const noticesSchema = new Schema(
     comments: {
       type: String,
       default: '',
+    },
+    price: {
+      type: Number,
     },
     imageURL: {
       type: String,
@@ -55,6 +59,10 @@ const noticesSchema = new Schema(
     titleArray: {
       type: [String],
       default: [],
+    },
+    birthDate: {
+      type: Number,
+      default: 0,
     },
     owner: {
       type: Schema.Types.ObjectId,

@@ -4,6 +4,7 @@ const router = express.Router();
 const asyncWrapper = require('../../helpers/asyncWrapper');
 const upload = require('../../middlewares/uploadNotice');
 const validation = require('../../middlewares/validation');
+const validatorNotice = require('../../middlewares/validatorNotice');
 const authenticate = require('../../middlewares/auth');
 const validateImage = require('../../middlewares/validateImage');
 const ctrNotices = require('../../controllers/noticesControllers');
@@ -26,7 +27,7 @@ router.post(
   authenticate,
   validateImage,
   upload.single('image'),
-  validation(schema.postSchema),
+  validatorNotice(),
   asyncWrapper(ctrNotices.addNotice)
 );
 

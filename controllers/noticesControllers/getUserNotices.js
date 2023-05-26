@@ -1,7 +1,15 @@
 const Notice = require('../../db/models/noticesModel');
 
 const getUserNotices = async (req, res) => {
-  const { page = 1, limit = 20, title, categories } = req.query;
+  const {
+    page = 1,
+    limit = 20,
+    title,
+    categories,
+    minPrice,
+    maxPrice,
+    sex,
+  } = req.query;
   const skip = (page - 1) * limit;
   const { _id: owner } = req.user;
 
@@ -17,6 +25,18 @@ const getUserNotices = async (req, res) => {
 
   if (categories) {
     queryBody.categories = categories.toLowerCase();
+  }
+
+  if (sex) {
+    queryBody.sex = sex.toLowerCase();
+  }
+
+  if (minPrice) {
+    queryBody.price = { $gte: minPrice };
+  }
+
+  if (maxPrice) {
+    queryBody.price = { ...queryBody.price, $lte: maxPrice };
   }
 
   const notices = await Notice.find(queryBody, '', {
@@ -35,6 +55,7 @@ const getUserNotices = async (req, res) => {
       place: notice.place,
       sex: notice.sex,
       imageURL: notice.imageURL,
+      price: notice.price,
       favorite: notice.favoriteNotice,
     };
   });

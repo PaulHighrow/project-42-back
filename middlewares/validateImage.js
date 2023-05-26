@@ -4,7 +4,6 @@ const httpError = require('../helpers/httpError');
 const validateImage = (req, res, next) => {
   const form = formidable({ multiples: true });
   form.parse(req, (__, field, file) => {
-    console.log(file.image.mimetype);
     const type = [
       'image/jpg',
       'image/jpeg',
@@ -24,7 +23,7 @@ const validateImage = (req, res, next) => {
       );
     }
 
-    if (file.image.size > 5000000) {
+    if (file.image.size > 3000000) {
       return next(
         httpError(
           400,
