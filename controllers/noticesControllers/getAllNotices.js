@@ -1,7 +1,15 @@
 const Notice = require('../../db/models/noticesModel');
 
 const getAllNotices = async (req, res) => {
-  const { page = 1, limit = 20, title, categories } = req.query;
+  const {
+    page = 1,
+    limit = 20,
+    title,
+    categories,
+    minPrice,
+    maxPrice,
+    sex,
+  } = req.query;
   const skip = (page - 1) * limit;
   const queryBody = {};
 
@@ -15,6 +23,18 @@ const getAllNotices = async (req, res) => {
 
   if (categories) {
     queryBody.categories = categories.toLowerCase();
+  }
+
+  if (sex) {
+    queryBody.sex = sex.toLowerCase();
+  }
+
+  if (minPrice) {
+    queryBody.price = { $gte: minPrice };
+  }
+
+  if (maxPrice) {
+    queryBody.price = { ...queryBody.price, $lte: maxPrice };
   }
 
   const notices = await Notice.find(queryBody, '', {
