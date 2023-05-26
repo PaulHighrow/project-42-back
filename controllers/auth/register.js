@@ -21,12 +21,12 @@ const register = asyncHandler(async (req, res) => {
   if (user) {
     return res.status(409).json({ message: `Email or password is wrong` });
   }
-const avatarURL = gravatar.url(email, { protocol: 'http', s: '250' });
+  const avatarURL = gravatar.url(email);
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
-  });
+    avatarURL  });
 
   const { token } = await generateToken(newUser._id);
   await User.findByIdAndUpdate(newUser._id, { token });
@@ -37,7 +37,7 @@ const avatarURL = gravatar.url(email, { protocol: 'http', s: '250' });
     token,
     result: {
       email: newUser.email,
-      avatarURL,
+      avatarURL: newUser.avatarURL
     },
   });
 });

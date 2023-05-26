@@ -1,11 +1,9 @@
 const User = require('./user');
-const Service = require('./service');
 const News = require('./news');
-const Friends = require('./friends');
+const Services = require('./services');
 
 module.exports = {
-  Service,
   User,
   News,
-  Friends
+  Services,
 };
