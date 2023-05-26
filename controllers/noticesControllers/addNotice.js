@@ -16,11 +16,19 @@ const addNotice = async (req, res) => {
   const result = await configCloudinary(fileName, resultUpload);
   await fs.rm(tmpDir, { recursive: true });
 
+  const [day, month, year] = req.body.birthday.split('.');
+  const birthDate = new Date(
+    `${Number(year)}-${Number(month)}-${Number(day)}`
+  ).getTime();
+
+  console.log(birthDate);
+
   const notice = await Notice.create({
     ...req.body,
     imageURL: result.url,
     titleArray,
     owner,
+    birthDate,
   });
 
   res.status(201).json({
