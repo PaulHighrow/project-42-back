@@ -60,22 +60,14 @@ const getUserNotices = async (req, res) => {
     limit,
   });
 
-  const filterKeysNotices = notices.map(notice => {
-    notice.favoriteNotice = notice.favorite.includes(owner);
-    return {
-      id: notice._id,
-      categories: notice.categories,
-      title: notice.title,
-      name: notice.name,
-      birthday: notice.birthday,
-      place: notice.place,
-      sex: notice.sex,
-      imageURL: notice.imageURL,
-      price: notice.price,
-      favorite: notice.favoriteNotice,
-    };
-  });
+  const filterKeysNotices = notices.filter(notice => notice.owner === owner);
 
+  if (!filterKeysNotices.length) {
+    return res.json({
+      status: 'success, no data found',
+      code: 200,
+    });
+  }
   res.json({
     status: 'success',
     code: 200,
