@@ -7,6 +7,7 @@ const authRouter = require('./routes/api/auth');
 const userRouter = require('./routes/api/user');
 const noticesRouter = require('./routes/api/notices');
 const petsRouter = require('./routes/api/pets');
+const userPetsRoutes = require('./routes/api/userPets');
 const newsRouter = require('./routes/api/news');
 const servicesRouter = require('./routes/api/services');
 
@@ -28,6 +29,7 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/notices', noticesRouter);
 app.use('/pets', petsRouter);
+app.use('/user-pets', userPetsRoutes);
 app.use('/news', newsRouter);
 app.use('/services', servicesRouter);
 
