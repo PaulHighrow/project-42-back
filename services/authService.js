@@ -6,8 +6,6 @@ const findUserByEmail = async ({ email }) => {
   return user;
 };
 
-
-
 const registerNewUser = async ({ email, password, name }) => {
   return await User.create({ name, email, password });
 };
