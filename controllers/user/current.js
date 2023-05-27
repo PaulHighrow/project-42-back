@@ -8,7 +8,7 @@ const current = asyncHandler(async (req, res) => {
   if (!refreshToken) {
     return res.status(401).json({ message: 'Not authorized' });
   }
-  const { email } = req.body;
+  const { email } = req.user;
   const user = await findUserByEmail({ email });
 
   res.cookie('refreshToken', refreshToken, {
