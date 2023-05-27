@@ -1,7 +1,7 @@
 const { findUserByEmail } = require('../../services/authService');
 
 const current = async (req, res, __) => {
-  const { email } = req.body;
+  const { email } = req.user;
   const user = await findUserByEmail({ email });
 
   res.json({

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const asyncWrapper = require('../../helpers/asyncWrapper');
-const upload = require('../../middlewares/uploadNotice');
+const uploadNotice = require('../../middlewares/uploadNotice');
 const validation = require('../../middlewares/validation');
 const validatorNotice = require('../../middlewares/validatorNotice');
 const authenticate = require('../../middlewares/auth');
@@ -25,8 +25,8 @@ router.get('/:noticeId', asyncWrapper(ctrNotices.getNoticeById));
 router.post(
   '/user',
   authenticate,
+  uploadNotice.single('imageURL'),
   validateImage,
-  upload.single('image'),
   validatorNotice(),
   asyncWrapper(ctrNotices.addNotice)
 );
@@ -34,7 +34,7 @@ router.post(
 router.put(
   '/user/:noticeId',
   authenticate,
-  upload.single('image'),
+  uploadNotice.single('imageURL'),
   validation(schema.putSchema),
   asyncWrapper(ctrNotices.updateNotice)
 );

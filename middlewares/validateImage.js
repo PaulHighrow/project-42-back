@@ -23,7 +23,7 @@ const validateImage = (req, res, next) => {
       );
     }
 
-    if (file.image.size > 3000000) {
+    if (file.image.size > 5000000) {
       return next(
         httpError(
           400,
