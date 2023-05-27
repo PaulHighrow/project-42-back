@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt');
 const asyncHandler = require('express-async-handler');
 const gravatar = require('gravatar');
+
 const { User } = require('../../db/models');
 const { findUserByEmail } = require('../../services/authService');
-
 const { joiSignupSchema } = require('../../schemas');
 const getError = require('../../helpers/getError');
 const { generateToken } = require('../../helpers/generateToken');
@@ -39,6 +39,7 @@ const register = asyncHandler(async (req, res) => {
     code: 201,
     token,
     result: {
+      _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
       avatarURL: newUser.avatarURL

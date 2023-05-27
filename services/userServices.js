@@ -1,7 +1,8 @@
-const { User } = require('../db/models');
+const cloudinary = require('cloudinary').v2;
 
-const changeAvatar = async (_id, avatarURL) => {
-  return await User.findByIdAndUpdate(_id, avatarURL, { new: true });
+const deleteImage = async imgId => {
+  const result = await cloudinary.uploader.destroy(imgId);
+  return result;
 };
 
-module.exports = { changeAvatar };
+module.exports = { deleteImage };

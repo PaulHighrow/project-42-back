@@ -1,5 +1,5 @@
-const asyncHandler = require("express-async-handler");
-const { User } = require("../../db/models");
+const asyncHandler = require('express-async-handler');
+const { User } = require('../../db/models');
 
 const update = asyncHandler(async (req, res) => {
   const { _id } = req.user;
@@ -38,6 +38,4 @@ const update = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = {
-  update,
-};
+module.exports = update;
