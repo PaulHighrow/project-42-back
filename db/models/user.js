@@ -17,7 +17,7 @@ const userSchema = new Schema(
       type: String,
       minlength: 3,
       maxlength: 20,
-      default: 'User',
+      default: '',
     },
     birthday: {
       type: String,

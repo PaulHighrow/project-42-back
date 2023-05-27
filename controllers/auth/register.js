@@ -23,10 +23,13 @@ const register = asyncHandler(async (req, res) => {
   }
   const avatarURL = gravatar.url(email);
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  const [name, _] = email.split('@').slice(0, 1);
   const newUser = await User.create({
     ...req.body,
+    name: name,
     password: hashPassword,
-    avatarURL  });
+    avatarURL,
+  });
 
   const { token } = await generateToken(newUser._id);
   await User.findByIdAndUpdate(newUser._id, { token });
@@ -36,6 +39,7 @@ const register = asyncHandler(async (req, res) => {
     code: 201,
     token,
     result: {
+      name: newUser.name,
       email: newUser.email,
       avatarURL: newUser.avatarURL
     },
