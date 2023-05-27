@@ -3,20 +3,21 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new Schema(
   {
-    name: {
+    email: {
       type: String,
-      minlength: 3,
-      maxlength: 20,
+      required: [true, 'Email is required'],
+      unique: true,
     },
     password: {
       type: String,
       minlength: 6,
       required: [true, 'Password is required'],
     },
-    email: {
+    name: {
       type: String,
-      required: [true, 'Email is required'],
-      unique: true,
+      minlength: 3,
+      maxlength: 20,
+      default: 'User',
     },
     birthday: {
       type: String,
