@@ -2,27 +2,24 @@ const Notice = require('../../db/models/noticesModel');
 const fs = require('fs/promises');
 const path = require('path');
 
+const asyncWrapper = require('../../helpers/asyncWrapper');
 const configCloudinary = require('./configCloudinary');
 
 const addNotice = async (req, res) => {
   const { _id: owner } = req.user;
-  console.log(req.file);
   const { path: tmpUpload, originalname } = req.file;
   const titleArray = req.body.title.toLowerCase().split(' ');
   const fileName = `${owner}_${originalname}`;
   const tmpDir = path.dirname(tmpUpload);
   const resultUpload = path.join(tmpDir, fileName);
 
-  await fs.rename(tmpUpload, resultUpload);
-  const result = await configCloudinary(fileName, resultUpload);
-  await fs.rm(tmpDir, { recursive: true });
+  fs.rename(tmpUpload, resultUpload);
+  const result = asyncWrapper(configCloudinary(fileName, resultUpload));
 
   const [day, month, year] = req.body.birthday.split('.');
   const birthDate = new Date(
     `${Number(year)}-${Number(month)}-${Number(day)}`
   ).getTime();
-
-  console.log(birthDate);
 
   const notice = await Notice.create({
     ...req.body,
@@ -31,6 +28,8 @@ const addNotice = async (req, res) => {
     owner,
     birthDate,
   });
+
+  fs.unlink(resultUpload);
 
   res.status(201).json({
     status: 'success',
