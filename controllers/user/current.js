@@ -21,6 +21,7 @@ const current = asyncHandler(async (req, res) => {
     code: 200,
     token,
     result: {
+      id: user._id,
       name: user.name,
       email: user.email,
       phone: user.phone,
@@ -31,7 +32,6 @@ const current = asyncHandler(async (req, res) => {
     },
   });
 });
-
 
 // const getCurrentUser = async (
 //   _id,
@@ -50,6 +50,5 @@ const current = asyncHandler(async (req, res) => {
 // const current = async ({
 //   user: { _id, name, email, birthday, phone, city, avatarURL },
 // }) => await getCurrentUser(_id, name, email, birthday, phone, city, avatarURL);
-
 
 module.exports = current;
