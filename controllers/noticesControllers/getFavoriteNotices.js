@@ -70,6 +70,7 @@ const getFavoriteNotices = async (req, res) => {
       sex: notice.sex,
       imageURL: notice.imageURL,
       price: notice.price,
+      owner: notice.owner,
       favorite: true,
     };
   });
