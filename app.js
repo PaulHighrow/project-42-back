@@ -1,7 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 
 const authRouter = require('./routes/api/auth');
 const userRouter = require('./routes/api/user');
@@ -23,7 +23,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
-// app.use(cookieParser());
+app.use(cookieParser());
 
 app.use('/auth', authRouter);
 app.use('/user', userRouter);

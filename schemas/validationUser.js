@@ -1,12 +1,11 @@
 const Joi = require('joi');
 const getError = require('../helpers/getError');
-const { emailPattern } = require('./patterns');
 
 const schema = {
 
   update: Joi.object({
     name: Joi.string().min(3).max(20),
-    email: Joi.string().email().pattern(emailPattern).required(),
+    email: Joi.string().email(),
     birthday: Joi.string().max(10),
     phone: Joi.string().max(13),
     city: Joi.string(),

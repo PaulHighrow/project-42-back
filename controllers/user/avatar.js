@@ -1,17 +1,28 @@
-const HttpError = require('../../helpers/httpError');
-const { changeAvatar } = require('../../services/userServices');
+const asyncHandler = require('express-async-handler');
+const { updateUserById } = require('../../services/authService');
+const { deleteImage } = require('../../services/userServices');
 
-const avatar = async (req, res, next) => {
-  if (!req.file) {
-    next(HttpError(400, 'Please provide a file'));
+
+const avatar = asyncHandler(async (req, res) => {
+  const { imgId, _id } = req.user;
+
+  if (!imgId) {
+    return res.status(400).json({ message: 'Image is missing' });
   }
 
-  const avatarURL = req.file.path;
+  const { result } = await deleteImage(imgId);
 
-  await changeAvatar(req.user._id, { avatarURL });
-  res.status(200).json({ avatarURL });
-};
+  if (result !== 'ok') {
+    return res.status(409).json({ message: 'Failed to delete image' });
+  }
 
-module.exports = {
-  avatar,
-};
+  const updatedUser = await updateUserById(_id, { avatarURL: '', imgId: null });
+
+  res.json({
+    status: result,
+    code: 200,
+    result: updatedUser,
+  });
+});
+
+module.exports = avatar;

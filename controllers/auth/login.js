@@ -23,13 +23,19 @@ const login = asyncHandler(async (req, res) => {
     return res.status(401).json({ message: `Email or password is wrong` });
   }
 
-  const { token } = await generateToken(user._id);
-  await User.findByIdAndUpdate(user._id, { token });
+  const { token, refreshToken } = await generateToken(user._id);
+  await User.findByIdAndUpdate(user._id, { token, refreshToken });
+
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  });
 
   res.json({
     status: 'success',
     code: 200,
     token,
+    refreshToken,
     result: {
       _id: user._id,
       name: user.name,

@@ -22,11 +22,6 @@ const findUserById = async _id => {
   return user;
 };
 
-const deleteImage = async imgId => {
-  const result = await cloudinary.uploader.destroy(imgId);
-  return result;
-};
-
 const updateUserById = async (_id, { name, email, birthday, phone, city, avatarURL, imgId }) => {
   const user = await User.findOneAndUpdate(
     _id,
@@ -53,6 +48,5 @@ module.exports = {
   loginUser,
   logoutUser,
   findUserById,
-  deleteImage,
   updateUserById,
 };
