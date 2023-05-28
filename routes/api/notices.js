@@ -26,7 +26,7 @@ router.post(
   '/user',
   authenticate,
   validateImage,
-  uploadNotice.single('image'),
+  uploadNotice.single('imageURL'),
   validatorNotice(),
   asyncWrapper(ctrNotices.addNotice)
 );
@@ -35,7 +35,7 @@ router.put(
   '/user/:noticeId',
   authenticate,
   validateImage,
-  uploadNotice.single('image'),
+  uploadNotice.single('imageURL'),
   validation(schema.putSchema),
   asyncWrapper(ctrNotices.updateNotice)
 );

@@ -1,5 +1,4 @@
 const { User } = require('../db/models');
-const cloudinary = require('cloudinary').v2;
 
 const findUserByEmail = async ({ email }) => {
   const user = await User.findOne({ email });
@@ -22,7 +21,10 @@ const findUserById = async _id => {
   return user;
 };
 
-const updateUserById = async (_id, { name, email, birthday, phone, city, avatarURL, imgId }) => {
+const updateUserById = async (
+  _id,
+  { name, email, birthday, phone, city, avatarURL, imgId }
+) => {
   const user = await User.findOneAndUpdate(
     _id,
     {

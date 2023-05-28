@@ -13,7 +13,7 @@ router.get('/');
 router.post(
   '/addpet',
   authenticate,
-  uploadCloud.single('photo'),
+  uploadCloud.single('imageURL'),
   validation(joiSchema),
   asyncWrapper(ctrl.addPet)
 );

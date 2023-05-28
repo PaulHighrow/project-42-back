@@ -17,9 +17,9 @@ const validateImage = (req, res, next) => {
       'image/tif',
       'image/tiff',
     ];
-    const resultUpload = path.join(tmpDir, file.image.originalFilename);
+    const resultUpload = path.join(tmpDir, file.imageURL.originalFilename);
 
-    if (!type.includes(file.image.mimetype)) {
+    if (!type.includes(file.imageURL.mimetype)) {
       fs.unlink(resultUpload);
       return next(
         httpError(
@@ -29,7 +29,7 @@ const validateImage = (req, res, next) => {
       );
     }
 
-    if (file.image.size > 5000000) {
+    if (file.imageURL.size > 5000000) {
       fs.unlink(resultUpload);
       return next(
         httpError(
