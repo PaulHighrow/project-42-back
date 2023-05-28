@@ -2,7 +2,6 @@ require('dotenv').config();
 const cloudinary = require('cloudinary');
 const { Pet } = require('../../db/models/petsModel');
 
-// need models here
 const fs = require('fs/promises');
 
 const addPet = async (req, res) => {
@@ -20,6 +19,7 @@ const addPet = async (req, res) => {
   }
 
   const { path: upload } = req.file;
+
   const { url } = await cloudinary.uploader.upload(upload, {
     width: 182,
     height: 182,
@@ -29,7 +29,7 @@ const addPet = async (req, res) => {
   fs.unlink(upload);
 
   const { _id } = req.user;
-  const result = await Pet.create({ ...req.body, photo: url, owner: _id });
+  const result = await Pet.create({ ...req.body, imageURL: url, owner: _id });
   res.status(201).json({
     status: 'success',
     code: 201,

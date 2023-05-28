@@ -70,6 +70,7 @@ const getAllNotices = async (req, res) => {
       imageURL: notice.imageURL,
       price: notice.price,
       owner: notice.owner,
+      favorite: notice.favorite,
     };
   });
 

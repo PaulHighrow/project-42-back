@@ -27,6 +27,7 @@ const getNoticeById = async (req, res, next) => {
         comments: notice.comments,
         price: notice.price,
         owner: notice.owner,
+        favorite: notice.favorite,
       },
     },
   });

@@ -71,7 +71,7 @@ const getFavoriteNotices = async (req, res) => {
       imageURL: notice.imageURL,
       price: notice.price,
       owner: notice.owner,
-      favorite: true,
+      favorite: notice.favorite,
     };
   });
 
