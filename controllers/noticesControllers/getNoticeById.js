@@ -7,7 +7,7 @@ const getNoticeById = async (req, res, next) => {
   const notice = await Notice.findById(_id);
 
   if (notice.length === 0) {
-    return next(httpError(404, `Notice width id=${_id} is not found`));
+    return next(httpError(404, `Notice with id=${_id} is not found`));
   }
 
   res.json({

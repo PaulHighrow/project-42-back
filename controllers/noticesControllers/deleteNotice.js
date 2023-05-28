@@ -8,13 +8,13 @@ const deleteNotice = async (req, res, next) => {
   const notice = await Notice.findByIdAndRemove({ owner, _id });
 
   if (notice.length === 0) {
-    return next(httpError(404, `Notice width id=${_id} is not found`));
+    return next(httpError(404, `Notice with id=${_id} is not found`));
   }
 
   res.json({
     status: 'success',
     code: 200,
-    message: `Contact width id=${_id} was deleted`,
+    message: `Notice with id=${_id} was deleted`,
     data: {
       notice: {
         id: _id,

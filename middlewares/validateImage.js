@@ -24,7 +24,7 @@ const validateImage = (req, res, next) => {
       return next(
         httpError(
           400,
-          `It's not format images! Please upload the file in the following format ('.jpg','.jpeg','.png','.bmp','.gif','.tif','.tiff')`
+          `Incorrect image format! Please upload the file in the following format ('.jpg','.jpeg','.png','.bmp','.gif','.tif','.tiff')`
         )
       );
     }

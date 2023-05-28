@@ -31,7 +31,7 @@ const updateNotice = async (req, res, next) => {
   );
 
   if (notice.length === 0) {
-    return next(httpError(404, `Notice width id=${_id} is not found`));
+    return next(httpError(404, `Notice with id=${_id} is not found`));
   }
 
   res.json({
