@@ -1,8 +1,12 @@
 const formidable = require('formidable');
+const fs = require('fs/promises');
+const path = require('path');
+
 const httpError = require('../helpers/httpError');
+const tmpDir = require('../path');
 
 const validateImage = (req, res, next) => {
-  const form = formidable({ multiples: true });
+  const form = formidable();
   form.parse(req, (__, field, file) => {
     const type = [
       'image/jpg',
@@ -13,8 +17,10 @@ const validateImage = (req, res, next) => {
       'image/tif',
       'image/tiff',
     ];
+    const resultUpload = path.join(tmpDir, file.image.originalFilename);
 
     if (!type.includes(file.image.mimetype)) {
+      fs.unlink(resultUpload);
       return next(
         httpError(
           400,
@@ -23,7 +29,8 @@ const validateImage = (req, res, next) => {
       );
     }
 
-    if (file.image.size > 3000000) {
+    if (file.image.size > 5000000) {
+      fs.unlink(resultUpload);
       return next(
         httpError(
           400,

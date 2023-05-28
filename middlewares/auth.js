@@ -4,6 +4,7 @@ const { User } = require('../db/models');
 const authenticate = async (req, res, next) => {
   const { authorization = '' } = req.headers;
   const [bearer, token] = authorization.split(' ');
+
   try {
     if (bearer !== 'Bearer' || !token) {
       return res.status(401).json({ message: 'Not authorized' });
