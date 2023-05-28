@@ -46,6 +46,7 @@ const addNotice = async (req, res) => {
         imageURL: notice.imageURL,
         comments: notice.comments,
         price: notice.price,
+        owner: notice.owner,
       },
     },
   });
