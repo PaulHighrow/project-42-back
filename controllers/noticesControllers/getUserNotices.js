@@ -89,11 +89,13 @@ const getUserNotices = async (req, res) => {
   res.json({
     status: 'success',
     code: 200,
-    data: { notices: filterKeysNotices },
-    pagination: {
-      numberNotices: numberNotices.length,
-      page,
-      limit,
+    data: {
+      notices: filterKeysNotices,
+      pagination: {
+        numberNotices: numberNotices.length,
+        page,
+        limit,
+      },
     },
   });
 };
