@@ -53,7 +53,7 @@ const updateFavotiteNotice = async (req, res, next) => {
         categories: notice.categories,
         title: notice.title,
         name: notice.name,
-        favorite: favorite,
+        favorite: favorites,
       },
     },
   });
