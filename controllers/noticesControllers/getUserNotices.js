@@ -3,7 +3,7 @@ const Notice = require('../../db/models/noticesModel');
 const getUserNotices = async (req, res) => {
   const {
     page = 1,
-    limit = 20,
+    limit = 12,
     title,
     categories,
     minPrice,
@@ -15,7 +15,7 @@ const getUserNotices = async (req, res) => {
   const skip = (page - 1) * limit;
   const { _id: owner } = req.user;
 
-  const queryBody = {};
+  const queryBody = { owner };
 
   if (title) {
     queryBody.titleArray = title.toLowerCase().split(' ');
@@ -55,23 +55,44 @@ const getUserNotices = async (req, res) => {
     queryBody.birthDate = { ...queryBody.birthDate, $gte: birthDate };
   }
 
+  const numberNotices = await Notice.find(queryBody);
+
   const notices = await Notice.find(queryBody, '', {
     skip,
     limit,
   });
 
-  const filterKeysNotices = notices.filter(notice => notice.owner === owner);
-
-  if (!filterKeysNotices.length) {
+  if (!notices.length) {
     return res.json({
-      status: 'success, no data found',
+      status: 'success',
       code: 200,
+      message: 'No data found',
     });
   }
+
+  const filterKeysNotices = notices.map(notice => {
+    return {
+      id: notice._id,
+      categories: notice.categories,
+      title: notice.title,
+      name: notice.name,
+      birthday: notice.birthday,
+      place: notice.place,
+      sex: notice.sex,
+      imageURL: notice.imageURL,
+      price: notice.price,
+      owner: notice.owner,
+      favorite: notice.favorite,
+    };
+  });
+
   res.json({
     status: 'success',
     code: 200,
     data: { notices: filterKeysNotices },
+    numberNotices: numberNotices.length,
+    page,
+    limit,
   });
 };
 

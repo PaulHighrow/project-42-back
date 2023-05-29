@@ -3,7 +3,7 @@ const Notice = require('../../db/models/noticesModel');
 const getFavoriteNotices = async (req, res) => {
   const {
     page = 1,
-    limit = 20,
+    limit = 12,
     title,
     categories,
     minPrice,
@@ -54,10 +54,20 @@ const getFavoriteNotices = async (req, res) => {
     queryBody.birthDate = { ...queryBody.birthDate, $gte: birthDate };
   }
 
+  const numberNotices = await Notice.find(queryBody);
+
   const notices = await Notice.find(queryBody, '', {
     skip,
     limit,
   });
+
+  if (!notices.length) {
+    return res.json({
+      status: 'success',
+      code: 200,
+      message: 'No data found',
+    });
+  }
 
   const filterKeysNotices = notices.map(notice => {
     return {
@@ -78,7 +88,12 @@ const getFavoriteNotices = async (req, res) => {
   res.json({
     status: 'success',
     code: 200,
-    data: { notices: filterKeysNotices },
+    data: {
+      notices: filterKeysNotices,
+      numberNotices: numberNotices.length,
+      page,
+      limit,
+    },
   });
 };
 
