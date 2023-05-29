@@ -7,7 +7,7 @@ const deleteNotice = async (req, res, next) => {
   const { _id: owner } = req.user;
   const notice = await Notice.findByIdAndRemove({ owner, _id });
 
-  if (notice.length === 0) {
+  if (!notice) {
     return next(httpError(404, `Notice with id=${_id} is not found`));
   }
 
