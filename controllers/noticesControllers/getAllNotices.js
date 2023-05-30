@@ -81,8 +81,6 @@ const getAllNotices = async (req, res) => {
       price: notice.price,
       owner: notice.owner,
       favorite: notice.favorite,
-      updatedAt: notice.updatedAt,
-      createdAt: notice.createdAt,
     };
   });
 
