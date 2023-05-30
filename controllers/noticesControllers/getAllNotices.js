@@ -58,7 +58,7 @@ const getAllNotices = async (req, res) => {
   const notices = await Notice.find(queryBody, '', {
     skip,
     limit,
-  });
+  }).sort({ createdAt: -1 });
 
   if (!notices.length) {
     return res.json({
@@ -81,6 +81,8 @@ const getAllNotices = async (req, res) => {
       price: notice.price,
       owner: notice.owner,
       favorite: notice.favorite,
+      updatedAt: notice.updatedAt,
+      createdAt: notice.createdAt,
     };
   });
 

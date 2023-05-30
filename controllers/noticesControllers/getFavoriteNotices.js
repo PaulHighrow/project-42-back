@@ -59,7 +59,7 @@ const getFavoriteNotices = async (req, res) => {
   const notices = await Notice.find(queryBody, '', {
     skip,
     limit,
-  });
+  }).sort({ createdAt: -1 });
 
   if (!notices.length) {
     return res.json({
