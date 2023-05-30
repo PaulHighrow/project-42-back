@@ -16,7 +16,7 @@ const login = asyncHandler(async (req, res) => {
   const user = await findUserByEmail({ email });
 
   if (!user) {
-    return res.status(409).json({ message: 'User with this email not found' });
+    return res.status(400).json({ message: 'User with this email not found' });
   }
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
@@ -26,8 +26,8 @@ const login = asyncHandler(async (req, res) => {
   // const { token, refreshToken } = await generateToken(user._id);
   // await User.findByIdAndUpdate(user._id, { token, refreshToken });
 
-    const { token} = await generateToken(user._id);
-    await User.findByIdAndUpdate(user._id, { token});
+  const { token } = await generateToken(user._id);
+  await User.findByIdAndUpdate(user._id, { token });
 
   // res.cookie('refreshToken', refreshToken, {
   //   httpOnly: true,
@@ -47,7 +47,6 @@ const login = asyncHandler(async (req, res) => {
       city: user.city,
       birthday: user.birthday,
       avatarURL: user.avatarURL,
-      favorite: user.favorite,
     },
   });
 });

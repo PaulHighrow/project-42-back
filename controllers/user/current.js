@@ -28,27 +28,9 @@ const current = asyncHandler(async (req, res) => {
       city: user.city,
       birthday: user.birthday,
       avatarURL: user.avatarURL,
-      favorite: user.favorite,
+      imgId: user.imgId,
     },
   });
 });
-
-// const getCurrentUser = async (
-//   _id,
-//   name,
-//   email,
-//   birthday,
-//   phone,
-//   city,
-//   avatarURL
-// ) => {
-//   return await {
-//     user: { _id, name, email, birthday, phone, city, avatarURL },
-//   };
-// };
-
-// const current = async ({
-//   user: { _id, name, email, birthday, phone, city, avatarURL },
-// }) => await getCurrentUser(_id, name, email, birthday, phone, city, avatarURL);
 
 module.exports = current;

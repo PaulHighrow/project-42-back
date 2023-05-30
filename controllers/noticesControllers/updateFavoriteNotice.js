@@ -2,7 +2,7 @@ const Notice = require('../../db/models/noticesModel');
 
 const httpError = require('../../helpers/httpError');
 
-const updateFavotiteNotice = async (req, res, next) => {
+const updateFavoriteNotice = async (req, res, next) => {
   const { noticeId: _id } = req.params;
   const { _id: owner } = req.user;
   const { favorite } = req.query;
@@ -59,4 +59,4 @@ const updateFavotiteNotice = async (req, res, next) => {
   });
 };
 
-module.exports = updateFavotiteNotice;
+module.exports = updateFavoriteNotice;

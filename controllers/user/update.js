@@ -26,13 +26,13 @@ const update = asyncHandler(async (req, res) => {
     status: 'success',
     code: 200,
     result: {
+      _id: updateInfo._id,
       name: updateInfo.name,
       email: updateInfo.email,
       phone: updateInfo.phone,
       city: updateInfo.city,
       birthday: updateInfo.birthday,
       avatarURL: updateInfo.avatarURL,
-      favorite: updateInfo.favorite,
       imgId: updateInfo.imgId,
     },
   });

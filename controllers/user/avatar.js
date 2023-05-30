@@ -2,7 +2,6 @@ const asyncHandler = require('express-async-handler');
 const { updateUserById } = require('../../services/authService');
 const { deleteImage } = require('../../services/userServices');
 
-
 const avatar = asyncHandler(async (req, res) => {
   const { imgId, _id } = req.user;
 
@@ -21,7 +20,16 @@ const avatar = asyncHandler(async (req, res) => {
   res.json({
     status: result,
     code: 200,
-    result: updatedUser,
+    result: {
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      phone: updatedUser.phone,
+      city: updatedUser.city,
+      birthday: updatedUser.birthday,
+      avatarURL: updatedUser.avatarURL,
+      imgId: updatedUser.imgId,
+    },
   });
 });
 

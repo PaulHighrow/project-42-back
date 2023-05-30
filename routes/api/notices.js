@@ -43,7 +43,7 @@ router.put(
 router.patch(
   '/user/favorite/:noticeId',
   authenticate,
-  asyncWrapper(ctrNotices.updateFavotiteNotice)
+  asyncWrapper(ctrNotices.updateFavoriteNotice)
 );
 
 router.delete(
