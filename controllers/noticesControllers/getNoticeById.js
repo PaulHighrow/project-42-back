@@ -1,4 +1,5 @@
 const Notice = require('../../db/models/noticesModel');
+const User = require('../../db/models/user');
 
 const httpError = require('../../helpers/httpError');
 
@@ -9,6 +10,8 @@ const getNoticeById = async (req, res, next) => {
   if (notice.length === 0) {
     return next(httpError(404, `Notice with id=${_id} is not found`));
   }
+
+  const user = await User.findById(notice.owner);
 
   res.json({
     status: 'success',
@@ -28,6 +31,10 @@ const getNoticeById = async (req, res, next) => {
         price: notice.price,
         owner: notice.owner,
         favorite: notice.favorite,
+      },
+      user: {
+        email: user.email,
+        phone: user.phone,
       },
     },
   });
