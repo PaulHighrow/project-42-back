@@ -4,7 +4,7 @@ const removePet = async (req, res) => {
   const { petId } = req.params;
   const result = await Pet.findByIdAndRemove(petId);
   if (!result) {
-    return res.status(404).json({ message: 'This pet not found' });
+    return res.status(404).json({ message: 'Pet not found' });
   }
   res.json({
     status: 'success',

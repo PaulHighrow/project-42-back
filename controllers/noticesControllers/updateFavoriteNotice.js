@@ -28,7 +28,7 @@ const updateFavoriteNotice = async (req, res, next) => {
     return next(
       httpError(
         400,
-        `Parameter "favorite" is required and can have a value "true" or "false`
+        'Parameter "favorite" is required and can have a value "true" or "false'
       )
     );
   }
@@ -42,11 +42,11 @@ const updateFavoriteNotice = async (req, res, next) => {
   );
 
   if (notice.length === 0) {
-    return next(httpError(404, `Notice width id=${_id} is not found`));
+    return next(httpError(404, `Notice with id=${_id} is not found`));
   }
 
   res.json({
-    status: 'success',
+    status: 'Favorite status changed',
     code: 200,
     data: {
       notice: {

@@ -8,8 +8,6 @@ const validation = require('../../middlewares/validation');
 const { joiSchema } = require('../../db/models/petsModel');
 const ctrl = require('../../controllers/petsControllers');
 
-router.get('/');
-
 router.post(
   '/addpet',
   authenticate,
@@ -17,10 +15,6 @@ router.post(
   validation(joiSchema),
   asyncWrapper(ctrl.addPet)
 );
-
-router.put('/:petId');
-
-router.patch('/:petId');
 
 router.delete('/:petId', authenticate, asyncWrapper(ctrl.removePet));
 

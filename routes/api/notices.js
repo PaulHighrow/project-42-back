@@ -14,12 +14,6 @@ router.get('/', asyncWrapper(ctrNotices.getAllNotices));
 
 router.get('/user', authenticate, asyncWrapper(ctrNotices.getUserNotices));
 
-router.get(
-  '/user/favorite',
-  authenticate,
-  asyncWrapper(ctrNotices.getFavoriteNotices)
-);
-
 router.get('/:noticeId', asyncWrapper(ctrNotices.getNoticeById));
 
 router.post(
@@ -38,6 +32,12 @@ router.put(
   uploadNotice.single('imageURL'),
   validation(schema.putSchema),
   asyncWrapper(ctrNotices.updateNotice)
+);
+
+router.get(
+  '/user/favorite',
+  authenticate,
+  asyncWrapper(ctrNotices.getFavoriteNotices)
 );
 
 router.patch(

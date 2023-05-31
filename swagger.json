@@ -8,8 +8,12 @@
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
   "servers": [
-    { "url": "https://fourtwo-back.onrender.com" },
-    { "url": "http://localhost:3000" }
+    {
+      "url": "https://fourtwo-back.onrender.com"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
   ],
   "tags": [
     {
@@ -21,12 +25,16 @@
       "description": "User endpoints"
     },
     {
-      "name": "Notices",
-      "description": "Notices endpoints"
+      "name": "User Pets",
+      "description": "User's Pets endpoint"
     },
     {
       "name": "Pets",
       "description": "Pets endpoints"
+    },
+    {
+      "name": "Notices",
+      "description": "Notices endpoints"
     },
     {
       "name": "News",
@@ -131,7 +139,11 @@
         "tags": ["Auth"],
         "summary": "User logout",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "204": {
             "description": "User successfully logged out",
@@ -290,27 +302,143 @@
         }
       }
     },
-    "/notices/{category}": {
+    "/user-pets": {
       "get": {
-        "tags": ["Notices"],
-        "summary": "Search for notices by category and title",
-        "parameters": [
+        "tags": ["User Pets"],
+        "summary": "Get the user and his pets ",
+        "parameters": [],
+        "security": [
           {
-            "name": "category",
-            "in": "path",
-            "description": "The category of the notices to search for",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": ["sell", "in-good-hands", "lost-found"]
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation is successful! <br><br><b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>user</b> - object with user data:<br><br> <b>_id</b> - string, user _id <br><br> <b>phone</b> - string, user phone number.  <br><br><b>name</b> - string, the user's name. Must contain min 2, max 16 characters. <br><br><b>email</b> - string, the user's email address.  Pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[^_.-]w+([.-]?w+)*(.w{2,3})+$/ <br><br> <b>avatarURL</b> - string, the path to the uploaded user avatar <br><br>  <b>birthday</b> - string, the user's birthday. Example format: DD-MM-YYYY</b><br><br><b>city</b> - string, user city. <br><br><br> <b>pets</b> - array of objects with pet data: <br><br> <b>_id</b> - string, pet id <br><br> <b>name</b> - string, required. The pet's name. <br><br><b>photoURL</b> - file, the pet photo is a JPEG or PNG image file, no larger than 3Mb.<br><br> <b>birthday</b> - string,  required. The pets's birthday, example format: DD-MM-YYYY</b><br><br><b>breed</b> - string, pet breed. <br><br> <b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the pet <br><br> ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "$ref": "#/components/schemas/UserResponse"
+                    },
+                    "pets": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PetResponse"
+                      }
+                    }
+                  }
+                }
+              }
             }
           },
-          {
-            "name": "q",
-            "in": "query",
-            "description": "The search query to match against notice titles",
-            "type": "string"
+          "401": {
+            "description": "Not authorized",
+            "content": {}
           },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/pets": {
+      "post": {
+        "tags": ["Pets"],
+        "summary": "Add a new pet",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "<b>DESCRIPTION OF QUERY PARAMETERS:</b><br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br><b>photo</b> - file, the pet photo is a JPEG or PNG image file, no larger than 3Mb.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now, example format: 05-10-2022</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>All fields are required!</b>",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PetRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pet added successfully <br><br><b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br><b>photoURL</b> - file, the pet photo is a JPEG or PNG image file, no larger than 3Mb.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now, example format: 05-10-2022</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the pet <br><br> <b>_id</b> - string, user id <br><br>",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/pets/{petId}": {
+      "delete": {
+        "tags": ["Pets"],
+        "summary": "Delete pet",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "pet id",
+            "type": "string",
+            "example": "645cd2bb1915ca1c3dd740bc",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet card deleted!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Pet card deleted!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Pet not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/notices": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Search for notices by categories",
+        "parameters": [
           {
             "name": "page",
             "in": "query",
@@ -328,7 +456,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id<br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
+            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>categories</b> - string, notice category, 1 of 5 categories (sell, in-good-hands, lost-found, favorites-ads, my-ads) <br><br> <b>price</b> - string, minimum 1, required if category is sell <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - string,  required. The pets's birthday</b><br><br><b>breed</b> - string, pet breed. <br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - object, user ID, email, phone, who owns the notice <br><br> <b>imageURL</b> - string, path to photo <br><br> <b>page</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page <br><br> <b>minPrice</b> - string, the minimum price for a pet, filter parameter <br><br> <b>maxPrice</b> - string, the maximum price for a pet, filter parameter <br><br> <b>minMonths</b> - string, the minimum age for a pet, filter parameter <br><br> <b>maxMonths</b> - string, the maximum age for a pet, filter parameter <br><br> <b>favorite</b> - array of id's of users, who faved this notice",
             "content": {
               "application/json": {
                 "schema": {
@@ -340,15 +468,7 @@
                         "$ref": "#/components/schemas/NoticesResponseOwner"
                       }
                     },
-                    "total": {
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "totalPages": {
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "currentPage": {
+                    "page": {
                       "type": "integer",
                       "default": 1
                     },
@@ -368,23 +488,98 @@
         }
       }
     },
-    "/notices/search/{category}": {
+    "/notices/{categories}": {
       "get": {
         "tags": ["Notices"],
-        "summary": "Search for notices by category and title",
+        "summary": "Search for notices by categories",
         "parameters": [
           {
-            "name": "category",
+            "name": "categories",
             "in": "path",
             "description": "The category of the notices to search for",
-            "required": true,
             "schema": {
               "type": "string",
-              "enum": ["sell", "in-good-hands", "lost-found"]
+              "enum": [
+                "sell",
+                "in-good-hands",
+                "lost-found",
+                "favorites-ads",
+                "my-ads"
+              ]
             }
           },
           {
-            "name": "q",
+            "name": "page",
+            "in": "query",
+            "description": "The page number to retrieve",
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The maximum number of notices to retrieve per page",
+            "type": "integer",
+            "default": 12
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>categories</b> - string, notice category, 1 of 5 categories (sell, in-good-hands, lost-found, favorites-ads, my-ads) <br><br> <b>price</b> - string, minimum 1, required if category is sell <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - string,  required. The pets's birthday</b><br><br><b>breed</b> - string, pet breed. <br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - object, user ID, email, phone, who owns the notice <br><br> <b>imageURL</b> - string, path to photo <br><br> <b>page</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page <br><br> <b>minPrice</b> - string, the minimum price for a pet, filter parameter <br><br> <b>maxPrice</b> - string, the maximum price for a pet, filter parameter <br><br> <b>minMonths</b> - string, the minimum age for a pet, filter parameter <br><br> <b>maxMonths</b> - string, the maximum age for a pet, filter parameter <br><br> <b>favorite</b> - array of id's of users, who faved this notice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notices": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/NoticesResponseOwner"
+                      }
+                    },
+                    "page": {
+                      "type": "integer",
+                      "default": 1
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "default": 12
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "There are no notices for this request",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/notices/{categories}?{query}": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Search for notices by categories and title",
+        "parameters": [
+          {
+            "name": "categories",
+            "in": "path",
+            "description": "The categories of the notices to search for",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sell",
+                "in-good-hands",
+                "lost-found",
+                "favorites-ads",
+                "my-ads"
+              ]
+            }
+          },
+          {
+            "name": "query",
             "in": "query",
             "description": "The search query to match against notice titles",
             "required": true,
@@ -409,7 +604,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id<br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
+            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>categories</b> - string, notice category, 1 of 5 categories (sell, in-good-hands, lost-found, favorites-ads, my-ads) <br><br> <b>price</b> - string, minimum 1, required if category is sell <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - string,  required. The pets's birthday</b><br><br><b>breed</b> - string, pet breed. <br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - object, user ID, email, phone, who owns the notice <br><br> <b>imageURL</b> - string, path to photo <br><br> <b>page</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page <br><br> <b>minPrice</b> - string, the minimum price for a pet, filter parameter <br><br> <b>maxPrice</b> - string, the maximum price for a pet, filter parameter <br><br> <b>minMonths</b> - string, the minimum age for a pet, filter parameter <br><br> <b>maxMonths</b> - string, the maximum age for a pet, filter parameter <br><br> <b>favorite</b> - array of id's of users, who faved this notice",
             "content": {
               "application/json": {
                 "schema": {
@@ -421,15 +616,7 @@
                         "$ref": "#/components/schemas/NoticesResponse"
                       }
                     },
-                    "total": {
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "totalPages": {
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "currentPage": {
+                    "page": {
                       "type": "integer",
                       "default": 1
                     },
@@ -449,81 +636,7 @@
         }
       }
     },
-    "/notices/category/{category}": {
-      "get": {
-        "tags": ["Notices"],
-        "summary": "Search for notices by category",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "category",
-            "description": "The category to search for notices",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": ["sell", "in-good-hands", "lost-found"]
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "The page number to retrieve",
-            "required": false,
-            "type": "integer",
-            "default": 1
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of notices to retrieve per page",
-            "required": false,
-            "type": "integer",
-            "default": 12
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id<br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "notices": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/NoticesResponse"
-                      }
-                    },
-                    "total": {
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "totalPages": {
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "currentPage": {
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "limit": {
-                      "type": "integer",
-                      "default": 12
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "There are no notices for this request",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/notices/notice/{noticeId}": {
+    "/notices/{noticeId}": {
       "get": {
         "tags": ["Notices"],
         "summary": "Get notice by id",
@@ -539,7 +652,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful operation <br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - obgect, user ID, email, phone, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id",
+            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notice</b> - notice object with properties <br><br> <b>id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>categories</b> - string, notice category, 1 of 5 categories (sell, in-good-hands, lost-found, favorites-ads, my-ads) <br><br> <b>price</b> - string, minimum 1, required if category is sell <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - string,  required. The pets's birthday</b><br><br><b>breed</b> - string, pet breed. <br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - object, user ID, email, phone, who owns the notice <br><br> <b>imageURL</b> - string, path to photo <br><br> <b>page</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page <br><br> <b>minPrice</b> - string, the minimum price for a pet, filter parameter <br><br> <b>maxPrice</b> - string, the maximum price for a pet, filter parameter <br><br> <b>minMonths</b> - string, the minimum age for a pet, filter parameter <br><br> <b>maxMonths</b> - string, the maximum age for a pet, filter parameter <br><br> <b>favorite</b> - array of id's of users, who faved this notice",
             "content": {
               "application/json": {
                 "schema": {
@@ -549,7 +662,7 @@
             }
           },
           "400": {
-            "description": "Is not valid id",
+            "description": "Invalid id",
             "content": {}
           },
           "404": {
@@ -559,103 +672,7 @@
         }
       }
     },
-    "/notices/favorites/{noticeId}": {
-      "post": {
-        "tags": ["Notices"],
-        "summary": "Add notice to favorites  by id",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "noticeId",
-            "description": "Notice id",
-            "required": true,
-            "type": "string",
-            "example": "645cd2bb1915ca1c3dd740ba"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Notice add",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Notice add"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Is not valid id",
-            "content": {}
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {}
-          },
-          "404": {
-            "description": "Not found",
-            "content": {}
-          }
-        }
-      },
-      "delete": {
-        "tags": ["Notices"],
-        "summary": "Remove favorite notice by User",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "noticeId",
-            "description": "Notice id",
-            "required": true,
-            "type": "string",
-            "example": "645cd2bb1915ca1c3dd740ba"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Notice deleted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "notice deleted"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {}
-          },
-          "404": {
-            "description": "Not found",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/notices/favorites": {
+    "/notices/user/favorite": {
       "get": {
         "tags": ["Notices"],
         "summary": "Get favorites notices by User ",
@@ -667,7 +684,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>_id</b> - string, user id <br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id",
+            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>categories</b> - string, notice category, 1 of 5 categories (sell, in-good-hands, lost-found, favorites-ads, my-ads) <br><br> <b>price</b> - string, minimum 1, required if category is sell <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - string,  required. The pets's birthday</b><br><br><b>breed</b> - string, pet breed. <br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - object, user ID, email, phone, who owns the notice <br><br> <b>imageURL</b> - string, path to photo <br><br> <b>page</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page <br><br> <b>minPrice</b> - string, the minimum price for a pet, filter parameter <br><br> <b>maxPrice</b> - string, the maximum price for a pet, filter parameter <br><br> <b>minMonths</b> - string, the minimum age for a pet, filter parameter <br><br> <b>maxMonths</b> - string, the maximum age for a pet, filter parameter <br><br> <b>favorite</b> - array of id's of users, who faved this notice",
             "content": {
               "application/json": {
                 "schema": {
@@ -711,10 +728,10 @@
         }
       }
     },
-    "/notices/user-notices/{category}": {
-      "post": {
+    "/notices/user/favorite/{noticeId}": {
+      "patch": {
         "tags": ["Notices"],
-        "summary": "Create User notice by category",
+        "summary": "Toggle favorite notice status by id",
         "security": [
           {
             "Bearer": []
@@ -723,23 +740,72 @@
         "parameters": [
           {
             "in": "path",
-            "name": "category",
-            "description": "The category to create for notices",
+            "name": "noticeId",
+            "description": "Notice id",
             "required": true,
+            "type": "string",
+            "example": "645cd2bb1915ca1c3dd740ba"
+          },
+          {
+            "name": "favorite",
+            "in": "path",
+            "description": "Favorite status",
             "schema": {
               "type": "string",
-              "enum": ["sell", "in-good-hands", "lost-found"]
+              "enum": ["true", "false"]
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Favorite status changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Notice faved"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parameter 'favorite' is required and can have a value 'true' or 'false'",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/notices/user": {
+      "post": {
+        "tags": ["Notices"],
+        "summary": "Create User notice by categories",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "photo": {
-                    "type": "string",
+                  "imageURL": {
+                    "type": "file",
                     "format": "binary"
                   },
                   "title": {
@@ -781,7 +847,7 @@
                   {
                     "if": {
                       "properties": {
-                        "category": {
+                        "categories": {
                           "const": "sell"
                         }
                       }
@@ -797,7 +863,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id <br><br><b>_id</b> - string, notice id ",
+            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>title</b> - string, notice title <br><br> <b>categories</b> - string, notice category, 1 of 5 categories (sell, in-good-hands, lost-found, favorites-ads, my-ads) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>photoPublicId</b> - string, cloudinary photo public id <br><br><b>_id</b> - string, notice id ",
             "content": {
               "application/json": {
                 "schema": {
@@ -819,9 +885,7 @@
             "content": {}
           }
         }
-      }
-    },
-    "/notices/user-notices": {
+      },
       "get": {
         "tags": ["Notices"],
         "summary": "Get User notices",
@@ -833,7 +897,7 @@
         "parameters": [
           {
             "in": "query",
-            "name": "page ",
+            "name": "page",
             "required": false,
             "schema": {
               "type": "integer",
@@ -843,7 +907,7 @@
           },
           {
             "in": "query",
-            "name": "limit ",
+            "name": "limit",
             "required": false,
             "schema": {
               "type": "integer",
@@ -854,7 +918,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>_id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>category</b> - string, notice category, 1 of 3 categorys (sell, lost-found, for-free) <br><br> <b>price</b> - string, minimum 1 <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - user object with <b>_id</b>, <b>email</b>, <b>name</b> and <b>phone</b>, who owns the notice <br><br> <b>photoURL</b> - string, path to photo <br><br> <b>total</b> - integer, total objects <br><br> <b>totalPages</b> - integer, total pages <br><br> <b>currentPage</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page",
+            "description": "Successful operation<br><br> <b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>notices</b> - array, with objects notices <br><br> <b>id</b> - string, notice id <br><br> <b>title</b> - string, notice title <br><br> <b>categories</b> - string, notice category, 1 of 5 categories (sell, in-good-hands, lost-found, favorites-ads, my-ads) <br><br> <b>price</b> - string, minimum 1, required if category is sell <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br> <b>birthday</b> - string,  required. The pets's birthday</b><br><br><b>breed</b> - string, pet breed. <br><br> <b>place</b> - string, format city <br><br><b>sex</b> - string, 1 of 2 (male, female) <br><br><b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - object, user ID, email, phone, who owns the notice <br><br> <b>imageURL</b> - string, path to photo <br><br> <b>page</b> - integer, current page <br><br> <b>limit</b> - integer, the maximum number of notices to retrieve per page <br><br> <b>minPrice</b> - string, the minimum price for a pet, filter parameter <br><br> <b>maxPrice</b> - string, the maximum price for a pet, filter parameter <br><br> <b>minMonths</b> - string, the minimum age for a pet, filter parameter <br><br> <b>maxMonths</b> - string, the maximum age for a pet, filter parameter <br><br> <b>favorite</b> - array of id's of users, who faved this notice",
             "content": {
               "application/json": {
                 "schema": {
@@ -866,15 +930,7 @@
                         "$ref": "#/components/schemas/NoticesResponseOwner"
                       }
                     },
-                    "total": {
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "totalPages": {
-                      "type": "integer",
-                      "default": 1
-                    },
-                    "currentPage": {
+                    "page": {
                       "type": "integer",
                       "default": 1
                     },
@@ -898,7 +954,7 @@
         }
       }
     },
-    "/notices/user-notices/{noticeId}": {
+    "/notices/user/{noticeId}": {
       "delete": {
         "tags": ["Notices"],
         "summary": "remove User notice by id",
@@ -935,150 +991,15 @@
             }
           },
           "400": {
-            "description": "Is not valid id",
+            "description": "Invalid id",
             "content": {}
           },
           "401": {
-            "description": "User not authorized",
+            "description": "Not authorized",
             "content": {}
           },
           "404": {
             "description": "Not found",
-            "content": {}
-          }
-        }
-      }
-    },
-
-    "/pets": {
-      "post": {
-        "tags": ["Pets"],
-        "summary": "Add a new pet",
-        "parameters": [],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "requestBody": {
-          "description": "<b>DESCRIPTION OF QUERY PARAMETERS:</b><br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br><b>photo</b> - file, the pet photo is a JPEG or PNG image file, no larger than 3Mb.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now, example format: 05-10-2022</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>All fields are required!</b>",
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/PetRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Pet added successfully <br><br><b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br><b>photoURL</b> - file, the pet photo is a JPEG or PNG image file, no larger than 3Mb.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now, example format: 05-10-2022</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the pet <br><br> <b>_id</b> - string, user id <br><br>",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PetResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {}
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {}
-          }
-        }
-      },
-      "get": {
-        "tags": ["Pets"],
-        "summary": "Get the user and his pets ",
-        "parameters": [],
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The operation is successful! <br><br><b>DESCRIPTION OF RESPONSE PARAMETERS:</b><br><br> <b>user</b> - object with user data<br><br> <b>_id</b> - string, user _id <br><br> <b>phone</b> - string, user phone number. Can contain: any number, plus symbol, opening and closing bracket symbols, hyphen (minus) character, space character. <br><br><b>name</b> - string, the user's name. Must contain min 2, max 16. It can contain only Latin and Cyrillic letters, the apostrophe symbol, spaces and hyphens. <br>pattern /^[a-zA-Zа-яА-Я' -]+$/</b><br><br><b>email</b> - string, the user's email address.  Pattern: /^([a-z0-9_-]+.) *[a-z0-9_-]+@[a-z0-9_-]+(.[ a-z0-9_-]+)*. [a-z] {2,6}$/ <br><br> <b>avatarURL</b> - string, the path to the uploaded user avatar <br><br> <b>favorite</b> - array with id favorite notices <br><br> <b>birthday</b> - date, the user's birthday. max date - now, example format: 05-10-2022</b><br><br><b>city</b> - string, user city. Must contain min 2, max 100. It can contain only Latin and Cyrillic letters, as well as separators in the form of a space or hyphen. At the same time, it does not allow a delimiter string to begin or end and does not allow the use of two delimiters in a row. <br>Pattern: /^[a-zA-Zа-яА-Я]+(?:[s-][a-zA-Zа-яА-Я]+)*$/</b> <br><br><br> <b>pets</b> - array of objects with pet data <br><br> <b>name</b> - string, required. The pet's name. Must contain min 2, max 16.<br><br><b>photoURL</b> - file, the pet photo is a JPEG or PNG image file, no larger than 3Mb.<br><br> <b>birthday</b> - date,  required. The pets's birthday, max date - now, example format: 05-10-2022</b><br><br><b>breed</b> - string, pet breed. Must contain min 2, max 16.<br><br> <b>comments</b> - string, сomment on the pet. Must contain min 8, max 120.<br><br> <b>owner</b> - string, user ID, who owns the pet <br><br> <b>_id</b> - string, user id <br><br>",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "user": {
-                      "$ref": "#/components/schemas/UserResponse"
-                    },
-                    "pets": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/PetResponse"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {}
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-    "/pets/{petId}": {
-      "delete": {
-        "tags": ["Pets"],
-        "summary": "Delete pet",
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "petId",
-            "description": "pet id",
-            "type": "string",
-            "example": "645cd2bb1915ca1c3dd740bc",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Pet deleted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Pet deleted"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Is not valid id",
-            "content": {}
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {}
-          },
-          "404": {
-            "description": "Pet not found",
             "content": {}
           }
         }
@@ -1378,17 +1299,17 @@
         "type": "object",
         "required": [
           "title",
-          "category",
+          "categories",
           "name",
           "birthday",
           "breed",
           "place",
           "sex",
-          "photoURL",
+          "imageURL",
           "owner"
         ],
         "properties": {
-          "_id": {
+          "id": {
             "type": "string",
             "description": "notice id"
           },
@@ -1396,15 +1317,21 @@
             "type": "string",
             "description": "notice title"
           },
-          "category": {
+          "categories": {
             "type": "string",
-            "enum": ["sell", "in-good-hands", "lost-found"],
+            "enum": [
+              "sell",
+              "in-good-hands",
+              "lost-found",
+              "favorites-ads",
+              "my-ads"
+            ],
             "description": "Category for notice"
           },
           "price": {
-            "type": " integer",
+            "type": "integer",
             "default": 1,
-            "description": "'Price must be higher than 0'"
+            "description": "Price must be higher than 0"
           },
           "name": {
             "type": "string",
@@ -1433,46 +1360,40 @@
           "owner": {
             "type": "string"
           },
-          "photoURL": {
+          "imageURL": {
             "type": "string",
             "description": "URL to pet's avatar image"
-          },
-          "photoPublicId": {
-            "type": "string",
-            "description": "Cloudinary photo public id"
           }
         },
         "example": {
           "_id": "64662b0e2f3036272304490a",
-          "title": "Бимболейло",
-          "category": "sell",
-          "price": "500",
-          "name": "Бимболейло",
-          "birthday": "2022-10-06T00:00:00.000Z",
-          "breed": "Овца",
-          "place": "Astana",
+          "title": "Wanted in Hague",
+          "categories": "lost-found",
+          "name": "Damned Pyndiy",
+          "birthday": "07.10.1952",
+          "breed": "Svinosobaka",
+          "place": "Mordor",
           "sex": "male",
-          "comments": "Все гуд, давай сначала",
-          "owner": "6465490f66bc396723e59e0b",
-          "photoURL": "http://res.cloudinary.com/yourpet/image/upload/v1684417291/users-notices/xawinvrtpijxgy525maf.jpg",
-          "photoPublicId": "users-notices/xawinvrtpijxgy525maf"
+          "comments": "Highly contagious, don't approach and seek a psychological help after encounter!",
+          "owner": "6476642c8c4c64362b029269",
+          "imageURL": "http://res.cloudinary.com/dc1nv7ign/image/upload/v1685493346/6476642c8c4c64362b029269_a50%5B1%5D.png.png"
         }
       },
       "NoticesResponseOwner": {
         "type": "object",
         "required": [
           "title",
-          "category",
+          "categories",
           "name",
           "birthday",
           "breed",
           "place",
           "sex",
-          "photoURL",
+          "imageURL",
           "owner"
         ],
         "properties": {
-          "_id": {
+          "id": {
             "type": "string",
             "description": "notice id"
           },
@@ -1480,9 +1401,15 @@
             "type": "string",
             "description": "notice title"
           },
-          "category": {
+          "categories": {
             "type": "string",
-            "enum": ["sell", "in-good-hands", "lost-found"],
+            "enum": [
+              "sell",
+              "in-good-hands",
+              "lost-found",
+              "favorites-ads",
+              "my-ads"
+            ],
             "description": "Category for notice"
           },
           "price": {
@@ -1515,33 +1442,18 @@
             "type": "string"
           },
           "owner": {
-            "type": "object",
-            "properties": {
-              "_id": {
-                "type": "string"
-              },
-              "email": {
-                "type": "string",
-                "format": "email"
-              },
-              "phone": {
-                "type": "string"
-              }
-            }
+            "type": "string",
+            "description": "owner user id"
           },
-          "photoURL": {
+          "imageURL": {
             "type": "string",
             "description": "URL to pet's avatar image"
-          },
-          "photoPublicId": {
-            "type": "string",
-            "description": "Cloudinary photo public id"
           }
         },
         "example": {
           "_id": "64625f01d235dfcd7d09993a",
           "title": "Colorful Parrot for Your Home",
-          "category": "sell",
+          "categories": "sell",
           "price": "1500",
           "name": "Dana",
           "birthday": "2023-05-15T16:04:24.183Z",
@@ -1549,32 +1461,27 @@
           "place": "Odesa",
           "sex": "male",
           "comments": "Cute dogy",
-          "owner": {
-            "_id": "6467230dc5bff3d9e61dd929",
-            "email": "testtest@exampl.com",
-            "phone": "+380678881111"
-          },
-          "photoURL": "notices-img/4548164d-6521-4f55-9776-478ae59c8973.jpg",
-          "photoPublicId": "users-notices/xawinvrtpijxgy525maf"
+          "owner": "6467230dc5bff3d9e61dd929",
+          "imageURL": "notices-img/4548164d-6521-4f55-9776-478ae59c8973.jpg"
         }
       },
       "PetRequest": {
         "type": "object",
-        "required": ["name", "birthday", "photo", "breed", "comments"],
+        "required": ["name", "birthday", "imageURL", "breed", "comments"],
         "properties": {
           "name": {
             "type": "string",
-            "description": "Pet name"
+            "description": "Pet's name"
           },
-          "photo": {
+          "imageURL": {
             "type": "string",
             "format": "binary",
-            "description": "file, the pet photo is a JPEG or PNG image file, no larger than 3Mb."
+            "description": "file, the pet's photo is a JPEG or PNG image file, no larger than 3Mb."
           },
           "birthday": {
             "type": "string",
             "format": "date",
-            "description": "Pet birthday"
+            "description": "Pet's birthday"
           },
           "breed": {
             "type": "string",
@@ -1586,11 +1493,11 @@
           }
         },
         "example": {
-          "name": "Dana",
-          "photoURL": "https://example.com",
-          "birthday": "2023-05-16",
-          "breed": "Bichon",
-          "comments": "Cute dogy"
+          "name": "Hrundel",
+          "photoURL": "http://res.cloudinary.com/dc1nv7ign/image/upload/v1685471283/64763e5998c68dd20c4c4b78_pig.jpg.jpg",
+          "birthday": "2022-05-16",
+          "breed": "Salo",
+          "comments": "Awesome piggo"
         }
       },
       "PetResponse": {
@@ -1598,20 +1505,16 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Pet name"
+            "description": "Pet's name"
           },
-          "photoURL": {
+          "imageURL": {
             "type": "string",
-            "description": "URL Pet photo"
-          },
-          "photoPublicId": {
-            "type": "string",
-            "description": "Cloudinary photo public id"
+            "description": "Pet's photo URL"
           },
           "birthday": {
             "type": "string",
             "format": "date",
-            "description": "Pet birthday"
+            "description": "Pet's birthday"
           },
           "breed": {
             "type": "string",
@@ -1630,12 +1533,11 @@
           }
         },
         "example": {
-          "name": "Goat Benchik1",
-          "photoURL": "http://res.cloudinary.com/yourpet/image/upload/v1684491629/users-pets/eqcacyzqipueoahwrtjb.jpg",
-          "photoPublicId": "users-pets/w25zbc5pzrvgofpugtmy",
-          "birthday": "2019-09-12T00:00:00.000Z",
-          "breed": "Goat",
-          "comments": "I love it when Teamlead milks me too",
+          "name": "Hrundel",
+          "birthday": "2022-05-16",
+          "breed": "Salo",
+          "comments": "Awesome piggo",
+          "imageURL": "http://res.cloudinary.com/dc1nv7ign/image/upload/v1685471283/64763e5998c68dd20c4c4b78_pig.jpg.jpg",
           "owner": "64633604842359b372cc3d83",
           "_id": "646362c9d4b09e1d0c295e0b"
         }
@@ -1741,7 +1643,6 @@
             }
           }
         },
-
         "example": [
           {
             "_id": "645e60d47d3fb5013e50d1ef",
