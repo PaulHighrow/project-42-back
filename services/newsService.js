@@ -4,7 +4,7 @@ const getAllNews = async (req, res) => {
   try {
     const { page, perpage, search } = req.query;
     const pageNumber = parseInt(page) || 1;
-    const limit = parseInt(perpage) || 12;
+    const limit = parseInt(perpage) || 6;
     const skip = (pageNumber - 1) * limit;
 
     const query = {
