@@ -38,7 +38,7 @@ const addNotice = async (req, res) => {
         title: notice.title,
         name: notice.name,
         birthday: notice.birthday,
-        breed: notice.birthday,
+        breed: notice.breed,
         place: notice.place,
         sex: notice.sex,
         imageURL: notice.imageURL,
